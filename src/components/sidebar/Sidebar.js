@@ -1,5 +1,5 @@
 import "./Sidebar.css"
-import {Link} from "react-router-dom"
+import {NavLink} from "react-router-dom"
 
 export default function Sidebar() {
 
@@ -12,12 +12,14 @@ export default function Sidebar() {
                 </div>
                 <nav className="links">
                     <ul>
-                        <li><Link to="/">{/* add image icon for dashboard */}</Link>
+                        <li><NavLink to="/">{/* add image icon for dashboard */}
                         <span>Dashboard</span>
+                        </NavLink>
                         </li>
 
-                        <li><Link to="/create">{/* add image icon for create */}</Link>
+                        <li><NavLink to="/create">{/* add image icon for create */}
                         <span>New Project</span>
+                        </NavLink>
                         </li>
                     </ul>
                 </nav>

@@ -9,7 +9,7 @@ export default function Navbar() {
                 <li className="logo">
                     <Link to="/">
                     {/* Add logo image here */}
-                    The Dojo
+                    <span>The Dojo</span>
                     </Link>
                     </li>
                 <li><Link to="/login">Login</Link></li>
