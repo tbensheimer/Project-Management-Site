@@ -1,5 +1,6 @@
 import "./Navbar.css"
 import { Link } from "react-router-dom"
+import Dojo from "../../assets/Dojo.svg"
 
 export default function Navbar() {
 
@@ -8,7 +9,7 @@ export default function Navbar() {
             <ul>
                 <li className="logo">
                     <Link to="/">
-                    {/* Add logo image here */}
+                    <img src={Dojo} alt="Dojo icon" />
                     <span>The Dojo</span>
                     </Link>
                     </li>
