@@ -78,6 +78,9 @@ userSchema.statics.login = async function (email, password) {
     const isMatch = await bcrypt.compare(password, user.password);
 
     if(isMatch) {
+        user.isOnline = true;
+        // db  update user?
+
         return user;
     }
     else {
