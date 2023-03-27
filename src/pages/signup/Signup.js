@@ -16,7 +16,7 @@ export default function Signup() {
         signup(email, password, displayName, profileImage);
     }
 
-    const handleFileChange = (e) => {
+    const handleFileChange = async (e) => {
         setProfileImage(null);
 
         let file = e.target.files[0];  //selects first file if multiple uploaded
@@ -36,8 +36,22 @@ export default function Signup() {
             return;
         }
 
+        const base64 = await convertToBase64(file);
         setProfileError(null);
-        setProfileImage(file);
+        setProfileImage(base64);
+    }
+
+    const convertToBase64 = (file) => {
+        return new Promise((resolve, reject) => {
+            const fileReader = new FileReader();
+            fileReader.readAsDataURL(file);
+            fileReader.onload = () => {
+                resolve(fileReader.result);
+            }
+            fileReader.onerror = (error) => {
+                reject(error);
+            }
+        })
     }
 
     return (
@@ -62,6 +76,8 @@ export default function Signup() {
             <label>
                 <span>Profile Picture:</span>
                 <input required type="file" onChange={handleFileChange} />
+                {profileImage && <div className="img-container">Preview:<img src={profileImage} class="profile-pic" alt="profile pic" /></div>}
+
             </label>
 
             {!loading && <button className="btn">Signup</button>}

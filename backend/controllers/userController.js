@@ -12,8 +12,8 @@ const signupUser = async (req, res) => {
 
         const user = await User.signup(email, password, displayName, profileUrl);
 
-        user.isOnline = true;
-        User.updateOne(user); // test this in postman
+        // user.isOnline = true;
+        // User.updateOne(user); // test this in postman
 
         const token = createToken(user._id);
 
