@@ -76,7 +76,7 @@ export default function Signup() {
             <label>
                 <span>Profile Picture:</span>
                 <input required type="file" onChange={handleFileChange} />
-                {profileImage && <div className="img-container">Preview:<img src={profileImage} class="profile-pic" alt="profile pic" /></div>}
+                {profileImage && <div className="img-container">Preview:<img src={profileImage} className="profile-pic" alt="profile pic" /></div>}
 
             </label>
 

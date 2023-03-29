@@ -9,7 +9,7 @@ app.use(express.json());
 
 mongoose.set({strictQuery: true});
 
-mongoose.connect(process.env.DB)  //get real database created and connected and test in postman
+mongoose.connect(process.env.DB)  
 .then(() => {
     app.listen(process.env.PORT)
 })

@@ -16,6 +16,7 @@ const signupUser = async (req, res) => {
         // User.updateOne(user); // test this in postman
 
         const token = createToken(user._id);
+        
 
         res.status(200).json({displayName, profileUrl, token})
     }

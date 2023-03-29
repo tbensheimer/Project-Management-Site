@@ -32,12 +32,12 @@ userSchema.statics.signup = async function (email, password, displayName, profil
     if(!email || !password || !displayName || !profileUrl) {
         throw Error('Please fill all fields');
     }
-    if(!validator.IsEmail(email)) {
+    if(!validator.isEmail(email)) {
         throw Error('Please enter a valid email');
     }
-    if(!validator.IsStrongPassword(password)) {
-        throw Error('Please enter a stronger password');
-    }
+    // if(!validator.isStrongPassword(password)) {
+    //     throw Error('Please enter a stronger password');
+    // }
     
     let isMatch = await this.findOne({email});
 
