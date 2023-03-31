@@ -1,13 +1,15 @@
 import {useState} from "react";
+import {useDispatch} from "react-redux";
+import {login} from "../redux/store";
 
 export default function useSignup() {
 const [loading, setLoading] = useState(false);
 const [error, setError] = useState("");
+const dispatch = useDispatch();
 
 const signup = async(email, password, displayName, profileUrl) => {
     setLoading(true);
     setError(null);
-    console.log("makes it to useSignup");
    
     const response = await fetch("/user/signup", {
         method: "POST",
@@ -17,9 +19,7 @@ const signup = async(email, password, displayName, profileUrl) => {
         body: JSON.stringify({email, password, displayName, profileUrl})
     });
 
-    const data = await response.text();
-
-    console.log(data);
+    const data = await response.json();
 
     if(!response.ok) {
         setError(data.error)
@@ -29,7 +29,7 @@ const signup = async(email, password, displayName, profileUrl) => {
     if(response.ok) {
         setLoading(false);
         localStorage.setItem('user', data);
-        //dispatch login
+        dispatch(login(data));      // why still showing user null?
     }
 }
 return {error, loading, signup}
