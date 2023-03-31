@@ -9,16 +9,13 @@ const signup = async(email, password, displayName, profileUrl) => {
     setError(null);
     console.log("makes it to useSignup");
    
-    const response = await fetch("http://localhost:2000/user/signup", {
-        mode: 'no-cors',
+    const response = await fetch("/user/signup", {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
         },
-        body: {email, password, displayName, profileUrl}
+        body: JSON.stringify({email, password, displayName, profileUrl})
     });
-
-    console.log(response);
 
     const data = await response.text();
 
