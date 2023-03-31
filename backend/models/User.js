@@ -35,9 +35,9 @@ userSchema.statics.signup = async function (email, password, displayName, profil
     if(!validator.isEmail(email)) {
         throw Error('Please enter a valid email');
     }
-    // if(!validator.isStrongPassword(password)) {
-    //     throw Error('Please enter a stronger password');
-    // }
+    if(!validator.isStrongPassword(password)) {
+        throw Error('Please enter a stronger password');
+    }
     
     let isMatch = await this.findOne({email});
 
@@ -78,11 +78,36 @@ userSchema.statics.login = async function (email, password) {
     const isMatch = await bcrypt.compare(password, user.password);
 
     if(isMatch) {
+
+        const updatedBody = user;
+        updatedBody.isOnline = true;
+
+        this.findByIdAndUpdate(user._id, updatedBody);
         return user;
     }
     else {
         throw Error('Wrong username or password');
     }
+}
+
+userSchema.statics.logout = async function (_id) {
+
+    const user = await this.findById(_id);
+
+    if(!user) {
+        throw Error("No user associated with this Id");
+    }
+    const updatedUser = user;
+
+    updatedUser.isOnline = false;
+
+    const updated = await this.findByIdAndUpdate(_id, updatedUser);
+
+    if(!updated) {
+        throw Error("There was an error while logging user out");
+    }
+
+    return updated;
 }
 
 module.exports = mongoose.model("User", userSchema);

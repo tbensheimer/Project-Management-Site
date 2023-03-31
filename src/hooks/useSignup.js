@@ -4,7 +4,7 @@ import {login} from "../redux/store";
 
 export default function useSignup() {
 const [loading, setLoading] = useState(false);
-const [error, setError] = useState("");
+const [error, setError] = useState(null);
 const dispatch = useDispatch();
 
 const signup = async(email, password, displayName, profileUrl) => {
@@ -29,7 +29,7 @@ const signup = async(email, password, displayName, profileUrl) => {
     if(response.ok) {
         setLoading(false);
         localStorage.setItem('user', data);
-        dispatch(login(data));      // why still showing user null?
+        dispatch(login(data));   
     }
 }
 return {error, loading, signup}

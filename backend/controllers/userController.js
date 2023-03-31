@@ -18,7 +18,7 @@ const signupUser = async (req, res) => {
         const token = createToken(user._id);
         
 
-        res.status(200).json({displayName, profileUrl, token})
+        res.status(200).json({_id: user._id, displayName, profileUrl, token})
     }
     catch (error) {
         res.status(400).json({error: error.message});
@@ -32,8 +32,8 @@ const loginUser = async (req, res) => {
 
     const user = await User.login(email, password);
 
-    user.isOnline = true;
-        User.updateOne(user); // test this in postman
+    // user.isOnline = true;
+    //     User.updateOne(user); // test this in postman
 
     const token = createToken(user._id);
 
@@ -44,4 +44,20 @@ const loginUser = async (req, res) => {
     }
 }
 
-module.exports = {signupUser, loginUser};
+const logoutUser = async (req, res) => {
+
+    try {
+        const {_id} = req.body;
+        console.log(req.body);
+        const user = await User.logout(_id);
+
+        if(user) {
+            res.status(200).json({success: "User log out success!"});
+        }
+    }
+    catch (error) {
+        res.status(400).json({error: error.message});
+    }
+}
+
+module.exports = {signupUser, loginUser, logoutUser};
