@@ -12,13 +12,12 @@ export default function Logout() {
         setLoading(true);
         setError(null);
 
-        console.log(user);
         const response = await fetch("/user/logout", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
             },
-            body: JSON.stringify({_id: user._id})
+            body: JSON.stringify({_id: user.email})
         });
     
         const data = await response.json();
@@ -26,15 +25,12 @@ export default function Logout() {
         if(!response.ok) {
             setError(data.error)
             setLoading(false);
-            console.log(data)
         }
     
         if(response.ok) {
             setLoading(false);
             localStorage.removeItem("user");
             dispatch(logout());   
-            console.log(data)
-            console.log(user);
         }
     }
 

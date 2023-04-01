@@ -30,7 +30,6 @@ const loginUser = async(email, password) => {
         setLoading(false);
         localStorage.setItem('user', data);
         dispatch(login(data));   
-        console.log("successfully logged in");
     }
 }
 return {error, loading, loginUser}

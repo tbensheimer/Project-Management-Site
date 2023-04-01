@@ -90,18 +90,18 @@ userSchema.statics.login = async function (email, password) {
     }
 }
 
-userSchema.statics.logout = async function (_id) {
+userSchema.statics.logout = async function (email) {
 
-    const user = await this.findById(_id);
+    const user = await this.findOne(email);
 
     if(!user) {
-        throw Error("No user associated with this Id");
+        throw Error("No user associated with this email");
     }
     const updatedUser = user;
 
     updatedUser.isOnline = false;
 
-    const updated = await this.findByIdAndUpdate(_id, updatedUser);
+    const updated = await this.findByIdAndUpdate(user._id, updatedUser);
 
     if(!updated) {
         throw Error("There was an error while logging user out");

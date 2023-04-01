@@ -1,5 +1,6 @@
 const User = require('../models/User');
 const jwt = require('jsonwebtoken');
+const mongoose = require('mongoose');
 
 const createToken = (_id) => {
     return jwt.sign({_id}, process.env.SECRET, {expiresIn: '3d'});
@@ -18,7 +19,7 @@ const signupUser = async (req, res) => {
         const token = createToken(user._id);
         
 
-        res.status(200).json({_id: user._id, displayName, profileUrl, token})
+        res.status(200).json({_id: user._id, displayName, email, profileUrl, token})
     }
     catch (error) {
         res.status(400).json({error: error.message});
@@ -37,7 +38,7 @@ const loginUser = async (req, res) => {
 
     const token = createToken(user._id);
 
-    res.status(200).json({displayName: user.displayName, profileUrl: user.profileUrl, token})
+    res.status(200).json({_id: user._id, displayName: user.displayName, email: user.email, profileUrl: user.profileUrl, token})
     }
     catch (error) {
         res.status(400).json({error: error.message});
@@ -47,9 +48,9 @@ const loginUser = async (req, res) => {
 const logoutUser = async (req, res) => {
 
     try {
-        const {_id} = req.body;
-        console.log(req.body);
-        const user = await User.logout(_id);
+        const {email} = req.body;
+
+        const user = await User.logout(email);
 
         if(user) {
             res.status(200).json({success: "User log out success!"});
