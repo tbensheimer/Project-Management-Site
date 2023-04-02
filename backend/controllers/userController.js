@@ -6,6 +6,18 @@ const createToken = (_id) => {
     return jwt.sign({_id}, process.env.SECRET, {expiresIn: '3d'});
 }
 
+const getAllUsers = async (req, res) => {
+
+    try {
+    const users = await User.find();
+
+    res.status(200).json({users})
+    }
+    catch (error) {
+        res.status(400).json({error: error.message});
+    }
+}
+
 const signupUser = async (req, res) => {
 
     try {
@@ -61,4 +73,4 @@ const logoutUser = async (req, res) => {
     }
 }
 
-module.exports = {signupUser, loginUser, logoutUser};
+module.exports = {signupUser, loginUser, logoutUser, getAllUsers};

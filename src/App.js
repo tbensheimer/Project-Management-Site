@@ -8,6 +8,7 @@ import Login from './pages/login/Login';
 import Signup from './pages/signup/Signup';
 import Navbar from './components/navbar/Navbar';
 import Sidebar from './components/sidebar/Sidebar';
+import OnlineUsers from "./components/online-users/OnlineUsers";
 
 function App() {
   const user = useSelector(state => state.user);
@@ -15,7 +16,7 @@ function App() {
   return (
     <BrowserRouter>
     <div className="App">
-    <Sidebar />
+      {user && <Sidebar />}
       <div className="container">
       <Navbar />
       <Routes>
@@ -31,6 +32,7 @@ function App() {
 
       </Routes>
       </div>
+      {user && <OnlineUsers />}
     </div>
     </BrowserRouter>
   );
