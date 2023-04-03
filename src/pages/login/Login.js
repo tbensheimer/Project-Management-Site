@@ -1,11 +1,15 @@
 import "./Login.css"
 import {useState} from "react";
 import useLogin from "../../hooks/useLogin";
+import { useSelector } from "react-redux";
+import Avatar from "../../components/avatar/Avatar";
 
 export default function Signup() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [profile, setProfile] = useState(null);
     const {loading, error, loginUser} = useLogin();
+    const users = useSelector(state => state.users);
 
     const handleLoginSubmit = (e) => {
         e.preventDefault();
@@ -13,9 +17,25 @@ export default function Signup() {
         loginUser(email, password);
     }
 
+    const findProfilePic = () => {
+       const user = users.find(user => {
+            return user.email === email;
+        })
+
+        if (!user) {
+            setProfile(null);
+        }
+        else {
+            setProfile(user.profileUrl);
+        }
+    }
+
     return (
-        <form className="auth-form" onSubmit={handleLoginSubmit} >
+        <form className="auth-form" onSubmit={handleLoginSubmit}>
+            <div className="img-format">
             <h2>Log In</h2>
+            {profile && <Avatar src={profile}/>}
+            </div>
 
             <label>
                 <span>Email:</span>
@@ -24,7 +44,7 @@ export default function Signup() {
 
             <label>
                 <span>Password:</span>
-                <input required type="password" onChange={e => setPassword(e.target.value)} value={password} />
+                <input onFocus={findProfilePic} required type="password" onChange={e => setPassword(e.target.value)} value={password} />
             </label>
 
             {!loading && <button className="btn">Login</button>}

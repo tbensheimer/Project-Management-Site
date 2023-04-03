@@ -3,8 +3,9 @@ import {createSlice, configureStore} from "@reduxjs/toolkit";
 const projectSlice = createSlice({
     name: "project",
     initialState: {
-        project: [],
-        user: null
+        projects: [],
+        user: null,
+        users: null
     },
     reducers: {
         login: (state, action) => {
@@ -12,6 +13,9 @@ const projectSlice = createSlice({
         },
         logout: (state) => {
             state.user = null;
+        },
+        setUsers: (state, action) => {
+            state.users = action.payload;
         }
     }
 });
@@ -20,8 +24,8 @@ const store = configureStore({
     reducer: projectSlice.reducer
 });
 
-const {login, logout} = projectSlice.actions;
+const {login, logout, setUsers} = projectSlice.actions;
 
 //redux functions here
 
-export {store, login, logout}
+export {store, login, logout, setUsers}

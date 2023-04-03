@@ -9,9 +9,57 @@ import Signup from './pages/signup/Signup';
 import Navbar from './components/navbar/Navbar';
 import Sidebar from './components/sidebar/Sidebar';
 import OnlineUsers from "./components/online-users/OnlineUsers";
+import { useDispatch } from 'react-redux';
+import { setUsers, login } from './redux/store';
+import { useEffect } from 'react';
 
 function App() {
   const user = useSelector(state => state.user);
+  const dispatch = useDispatch();
+  // const [error, setError] = useState(null);
+  // const [loading, setLoading] = useState(false);
+
+    useEffect(() => {
+      const storedUser = JSON.parse(localStorage.getItem("user"));
+
+      if(storedUser) {
+        dispatch(login(storedUser));
+      }
+    }, [dispatch]);
+
+    useEffect(() => {
+
+        const getUsers = async () => {
+            // setError(null);
+            // setLoading(true);
+
+        const response = await fetch("/user/users");
+
+        const data = await response.json();
+
+        if(!response.ok) {
+          console.log("error getting users");
+            // setError(data.error);
+            // setLoading(false);
+        }
+
+        if(response.ok) {
+            // setError(null);
+            // setLoading(false);
+            dispatch(setUsers(data.users))
+            console.log("setted users");
+        }
+    }
+
+    getUsers(); //calls function now
+
+   const interval = setInterval(() => {
+    getUsers();
+    }, 10000);          //function every 10 seconds for update      **looks like not working on logout and login**
+
+    return () => clearInterval(interval);
+    }, [dispatch])
+
 
   return (
     <BrowserRouter>
