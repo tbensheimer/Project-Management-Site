@@ -16,6 +16,14 @@ const projectSlice = createSlice({
         },
         setUsers: (state, action) => {
             state.users = action.payload;
+        },
+        setOnline: (state, action) => {
+            state.users = state.users.map(user => {
+                if(user.email === action.payload) {
+                    return {...user, isOnline: true};
+                }
+                return user;
+            })
         }
     }
 });
@@ -24,8 +32,8 @@ const store = configureStore({
     reducer: projectSlice.reducer
 });
 
-const {login, logout, setUsers} = projectSlice.actions;
+const {login, logout, setUsers, setOnline} = projectSlice.actions;
 
 //redux functions here
 
-export {store, login, logout, setUsers}
+export {store, login, logout, setUsers, setOnline}

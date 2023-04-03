@@ -1,6 +1,6 @@
 import {useState} from "react";
 import {useDispatch} from "react-redux";
-import {login} from "../redux/store";
+import {login, setOnline} from "../redux/store";
 
 export default function useLogin() {
 const [loading, setLoading] = useState(false);
@@ -29,7 +29,8 @@ const loginUser = async(email, password) => {
     if(response.ok) {
         setLoading(false);
         localStorage.setItem('user', JSON.stringify(data));
-        dispatch(login(data));   
+        dispatch(login(data)); 
+        dispatch(setOnline(data.email));    // sets online status immediately  
     }
 }
 return {error, loading, loginUser}

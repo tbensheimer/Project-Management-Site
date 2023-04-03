@@ -82,7 +82,7 @@ userSchema.statics.login = async function (email, password) {
         const updatedBody = user;
         updatedBody.isOnline = true;
 
-        this.findByIdAndUpdate(user._id, updatedBody);
+        await this.findByIdAndUpdate(user._id, updatedBody);
         return user;
     }
     else {
@@ -92,7 +92,7 @@ userSchema.statics.login = async function (email, password) {
 
 userSchema.statics.logout = async function (email) {
 
-    const user = await this.findOne(email);
+    const user = await this.findOne({email});
 
     if(!user) {
         throw Error("No user associated with this email");

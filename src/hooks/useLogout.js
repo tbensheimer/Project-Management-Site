@@ -17,7 +17,7 @@ export default function Logout() {
             headers: {
                 "Content-Type": "application/json"
             },
-            body: JSON.stringify({_id: user.email})
+            body: JSON.stringify({email: user.email})
         });
     
         const data = await response.json();

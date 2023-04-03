@@ -45,8 +45,9 @@ const loginUser = async (req, res) => {
 
     const user = await User.login(email, password);
 
-    // user.isOnline = true;
-    //     User.updateOne(user); // test this in postman
+    const updatedUser = user;
+    updatedUser.isOnline = true;
+    await User.findByIdAndUpdate(user._id, updatedUser) // test this in postman
 
     const token = createToken(user._id);
 
