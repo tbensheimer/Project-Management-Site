@@ -13,6 +13,7 @@ export default function Create() {
     const [dueDate, setDueDate] = useState("");
     const [category, setCategory] = useState("");
     const [assignedUsers, setAssignedUsers] = useState([]);
+    const [formError, setFormError] = useState("");
 
     useEffect(() => {
         let options = users.map(user => {
@@ -31,6 +32,19 @@ export default function Create() {
 
     const handleFormSubmit = (e) => {
         e.preventDefault();
+
+        setFormError(null);
+
+        if(!category) {
+            setFormError("Please select a project category");
+            return;
+        }
+
+        if(assignedUsers.length < 1) {
+            setFormError("Please assign at least one user");
+            return;
+        }
+
 
         console.log(name, details, dueDate, category, assignedUsers);
 
@@ -67,6 +81,7 @@ export default function Create() {
             </label>
 
             <button className="btn">Create Project</button>
+            {formError && <p className="error">{formError}</p>}
             </form>
         </div>
     )
