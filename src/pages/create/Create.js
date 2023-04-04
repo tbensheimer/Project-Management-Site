@@ -5,6 +5,7 @@ import {useSelector} from "react-redux";
 
 export default function Create() {
     const users = useSelector(state => state.users);
+    const user = useSelector(state => state.user);
     const [userOptions, setUserOptions] = useState([]);
 
     // form fields
@@ -24,7 +25,7 @@ export default function Create() {
     }, [users]);
 
     const categoryOptions = [
-        {label: "Development", value: "development"},
+        {label: "Development", value: "development"},       //FUTURE: add form + table to manage categories (using database)
         {label: "Marketing", value: "Marketing"},
         {label: "Design", value: "design"},
         {label: "Sales", value: "sales"}
@@ -45,8 +46,28 @@ export default function Create() {
             return;
         }
 
+        const createdBy = {                         //user signed in info
+            displayName: user.displayName,
+            profileUrl: user.profileUrl,
+            _id: user._id
+        };
 
-        console.log(name, details, dueDate, category, assignedUsers);
+        const assignedUserList = assignedUsers.map(user => {
+            return {displayName: user.value.displayName, photoUrl: user.value.profileUrl, _id: user.value._id};
+        });
+
+        const project = {
+            name,
+            details,
+            category: category.value,
+            dueDate: new Date(dueDate),
+            comments: [],
+            createdBy,
+            assignedUserList
+        }
+
+        console.log(project);
+        //Add hook here to create project into DB
 
     }
 
