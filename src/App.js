@@ -27,10 +27,10 @@ function App() {
       }
     }, [dispatch]);
 
-    useEffect(() => {
+    useEffect(() => {                   // make this a hook?
 
-        const getUsers = async () => {
-            // setError(null);
+        const getUsers = async () => {                //need to figure out how to set offline if inactive and if browser closed
+            // setError(null);                
             // setLoading(true);
 
         const response = await fetch("/user/users");
@@ -47,7 +47,6 @@ function App() {
             // setError(null);
             // setLoading(false);
             dispatch(setUsers(data.users))
-            console.log("setted users");
         }
     }
 
@@ -55,7 +54,7 @@ function App() {
 
    const interval = setInterval(() => {
     getUsers();
-    }, 10000);          //function every 10 seconds for update      **looks like not working on logout and login**
+    }, 10000);          //function every 10 seconds for update   
 
     return () => clearInterval(interval);
     }, [dispatch])
