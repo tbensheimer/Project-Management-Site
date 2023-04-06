@@ -2,11 +2,13 @@ import "./Create.css"
 import Select from "react-select";
 import {useState, useEffect} from "react";
 import {useSelector} from "react-redux";
+import useProject from "../../hooks/useProject";
 
 export default function Create() {
     const users = useSelector(state => state.users);
     const user = useSelector(state => state.user);
     const [userOptions, setUserOptions] = useState([]);
+    const {createProject, loading, error} = useProject();
 
     // form fields
     const [name, setName] = useState("");
@@ -15,13 +17,16 @@ export default function Create() {
     const [category, setCategory] = useState("");
     const [assignedUsers, setAssignedUsers] = useState([]);
     const [formError, setFormError] = useState("");
+    const [success, setSuccess] = useState("");
 
     useEffect(() => {
+        if(users != null) {
         let options = users.map(user => {
             return {label: user.displayName, value: user};
         });
 
         setUserOptions(options);
+    }
     }, [users]);
 
     const categoryOptions = [
@@ -33,7 +38,7 @@ export default function Create() {
 
     const handleFormSubmit = (e) => {
         e.preventDefault();
-
+        setSuccess(null);
         setFormError(null);
 
         if(!category) {
@@ -56,7 +61,7 @@ export default function Create() {
             return {displayName: user.value.displayName, photoUrl: user.value.profileUrl, _id: user.value._id};
         });
 
-        const project = {
+        const projectToCreate = {
             name,
             details,
             category: category.value,
@@ -66,9 +71,17 @@ export default function Create() {
             assignedUserList
         }
 
-        console.log(project);
-        //Add hook here to create project into DB
+            const success = createProject(projectToCreate);    //success message (this works)
 
+            console.log(success);
+            if(success) {
+                setSuccess("Project created successfully");
+                setName("");
+                setDetails("");
+                setCategory("");
+                setDueDate("");
+                setAssignedUsers("");
+            }
     }
 
     return (
@@ -93,7 +106,8 @@ export default function Create() {
 
             <label>
                 <span>Assign Users:</span>
-                <Select isMulti options={userOptions} onChange={option => setAssignedUsers(option)} />
+                <Select isMulti options={userOptions} onChange={option => setAssignedUsers(option)} />  
+                {/* glitch present - pops users to "full" selection after users fetch */}
             </label>
 
             <label>
@@ -101,8 +115,10 @@ export default function Create() {
                 <input type="date" required onChange={e => setDueDate(e.target.value)} value={dueDate} />
             </label>
 
-            <button className="btn">Create Project</button>
+            <button disabled={loading} className="btn">{loading ? "Loading..." : "Create Project"}</button>
             {formError && <p className="error">{formError}</p>}
+            {error && <p className="error">{error}</p>}
+            {success && <p className="success">{success}</p>}
             </form>
         </div>
     )
