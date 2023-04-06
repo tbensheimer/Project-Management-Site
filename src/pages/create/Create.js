@@ -27,7 +27,8 @@ export default function Create() {
 
         setUserOptions(options);
     }
-    }, [users]);
+    // eslint-disable-next-line
+    }, []);
 
     const categoryOptions = [
         {label: "Development", value: "development"},       //FUTURE: add form + table to manage categories (using database)
@@ -107,7 +108,6 @@ export default function Create() {
             <label>
                 <span>Assign Users:</span>
                 <Select isMulti options={userOptions} onChange={option => setAssignedUsers(option)} />  
-                {/* glitch present - pops users to "full" selection after users fetch */}
             </label>
 
             <label>

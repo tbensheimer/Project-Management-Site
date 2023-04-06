@@ -7,8 +7,6 @@ const [error, setError] = useState(null);
 const createProject = async (project) => {
     setLoading(true);
     setError(null);
-
-    console.log("useProject" + project);
    
     const response = await fetch("/project/create", {
         method: "POST",
