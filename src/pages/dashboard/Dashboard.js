@@ -1,3 +1,4 @@
+import ProjectList from "../../components/projectList/ProjectList";
 import "./Dashboard.css"
 // import useProject from "../../hooks/useProject";
 import { useEffect, useState } from "react";
@@ -35,12 +36,7 @@ export default function Dashboard() {
     return (
         <div className="project-list">
             {!loading && projects.length === 0 && <p>No Projects</p>}
-            {projects.length > 0 && projects.map(project => {
-                return <div key={project._id}>{project.name}</div>
-            })}
-
-        {loading && <p>Loading...</p>}
-        {error && <p>{error}</p>}
+            <ProjectList error={error} loading={loading} projects={projects} />
         </div>
     )
 }
