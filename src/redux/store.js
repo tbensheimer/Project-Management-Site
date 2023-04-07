@@ -24,6 +24,9 @@ const projectSlice = createSlice({
                 }
                 return user;
             })
+        },
+        setProjects: (state, action) => {
+            state.projects = action.payload;
         }
     }
 });
@@ -32,8 +35,8 @@ const store = configureStore({
     reducer: projectSlice.reducer
 });
 
-const {login, logout, setUsers, setOnline} = projectSlice.actions;
+const {login, logout, setUsers, setOnline, setProjects} = projectSlice.actions;
 
 //redux functions here
 
-export {store, login, logout, setUsers, setOnline}
+export {store, login, logout, setUsers, setOnline, setProjects}

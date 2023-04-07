@@ -10,7 +10,7 @@ import Navbar from './components/navbar/Navbar';
 import Sidebar from './components/sidebar/Sidebar';
 import OnlineUsers from "./components/online-users/OnlineUsers";
 import { useDispatch } from 'react-redux';
-import { setUsers, login } from './redux/store';
+import { setUsers, login, setProjects } from './redux/store';
 import { useEffect } from 'react';
 
 function App() {
@@ -25,32 +25,46 @@ function App() {
       if(storedUser) {
         dispatch(login(storedUser));
       }
+
+      const getAllProjects = async () => {
+        // setLoading(true);
+        // setError(null);
+
+    const response = await fetch("/project/projects");
+
+    const data = await response.json();
+
+    if(!response.ok) {
+        // setError(data.error)
+        // setLoading(false);
+    }
+
+    if(response.ok) {
+        // setLoading(false);
+        dispatch(setProjects(data.projects));
+    }
+};
+
+getAllProjects();
+    //         // eslint-disable-next-line
     }, [dispatch]);
 
     useEffect(() => {                   // make this a hook?
 
         const getUsers = async () => {                //need to figure out how to set offline if inactive and if browser closed
-            // setError(null);                
-            // setLoading(true);
-
         const response = await fetch("/user/users");
-
         const data = await response.json();
 
         if(!response.ok) {
           console.log("error getting users");
-            // setError(data.error);
-            // setLoading(false);
         }
 
         if(response.ok) {
-            // setError(null);
-            // setLoading(false);
             dispatch(setUsers(data.users))
         }
     }
 
-    getUsers(); //calls function now
+    getUsers(); 
 
    const interval = setInterval(() => {
     getUsers();
