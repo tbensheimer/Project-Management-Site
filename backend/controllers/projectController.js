@@ -1,4 +1,5 @@
 const Project = require('../models/Project');
+const mongoose = require('mongoose');
 
 const getAllProjects = async (req, res) => {
 
@@ -26,4 +27,26 @@ const createProject = async (req, res) => {
     }
 }
 
-module.exports = {getAllProjects, createProject};
+const getProjectDetails = async (req, res) => {
+
+const id = req.params.id;
+
+if (!mongoose.Types.ObjectId.isValid(id)) {
+    return res.status(400).json({error: "No project with given Id"});
+}
+
+try {
+    const project = await Project.findById(id);
+
+    console.log(project);
+
+    if(project) {
+        return res.status(200).json(project);
+    }
+}
+catch (error) {
+    res.status(400).json({error: error.message});
+}
+}
+
+module.exports = {getAllProjects, createProject, getProjectDetails};
