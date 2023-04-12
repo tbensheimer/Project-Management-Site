@@ -2,6 +2,7 @@ import "./Project.css"
 import { useParams } from "react-router"
 import { useEffect, useState } from "react";
 import ProjectSummary from "./ProjectSummary";
+import ProjectComments from "./ProjectComments";
 
 export default function Project() {
     const id = useParams().id;
@@ -37,6 +38,7 @@ export default function Project() {
         <div className="project-details">
             {loading && <div className="loading">Loading...</div>}
             {project && <ProjectSummary project={project} /> }
+            {project && <ProjectComments project={project} />}
             {error && <div className="error">{error}</div>}
         </div>
     )
