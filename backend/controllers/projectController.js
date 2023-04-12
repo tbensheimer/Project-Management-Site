@@ -38,8 +38,6 @@ if (!mongoose.Types.ObjectId.isValid(id)) {
 try {
     const project = await Project.findById(id);
 
-    console.log(project);
-
     if(project) {
         return res.status(200).json(project);
     }
