@@ -47,4 +47,28 @@ catch (error) {
 }
 }
 
-module.exports = {getAllProjects, createProject, getProjectDetails};
+const addProjectComment = async (req, res) => {
+    const id = req.params.id;
+    const newComment = req.body;
+
+    if(!mongoose.Types.ObjectId.isValid(id)) {
+        return res.status(400).json({error: "No project with given Id"});
+    }
+
+    try {
+        const project = await Project.findById(id);
+
+        project.comments = [...project.comments, newComment];
+
+         await Project.findByIdAndUpdate(id, project);
+
+        if(project) {
+            return res.status(200).json(project);
+        }
+    }
+    catch (error) {
+        res.status(400).json({error: error.message});
+    }
+}
+
+module.exports = {getAllProjects, createProject, getProjectDetails, addProjectComment};
