@@ -53,6 +53,7 @@ export default function ProjectComments({project}) {
         };
         
         setProjectComments([...projectComments, commentToAdd]);  //add comment instantly without delay from fetching comments
+        setNewComment("");
 
         const response = await fetch(`/project/add-comment/${project._id}`, {
             method: "POST",
@@ -68,7 +69,6 @@ export default function ProjectComments({project}) {
             setError(data.error);
         }
 
-        setNewComment("");
         setLoading(false);
     }
 
