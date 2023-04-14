@@ -1,12 +1,40 @@
 import "./Project.css";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
+import Avatar from "../../components/avatar/Avatar";
 
 export default function ProjectComments({project}) {
     const [newComment, setNewComment] = useState("");
+    const [projectComments, setProjectComments] = useState([]);
     const [loading, setLoading] = useState("");
     const [error, setError] = useState("");
     const user = useSelector(state => state.user);
+
+    useEffect(() => {                   //separate fetch for comments only so whole project isn't reloaded every 2 seconds
+
+        const getComments = async () => {               
+        const response = await fetch("/project/comments");
+        const data = await response.json();
+
+        if(!response.ok) {
+          console.log("error getting comments");
+        }
+
+        if(response.ok) {
+        setProjectComments(data.comments)
+        }
+    }
+
+    setProjectComments(project.comments);  //sets comments instantly 
+
+   const interval = setInterval(() => {
+    getComments();
+    }, 5000);  
+
+    return () => clearInterval(interval);
+
+}, []);
+
 
     const handleAddComment = async (e) => {
         e.preventDefault();
@@ -45,6 +73,22 @@ export default function ProjectComments({project}) {
     return (
         <div className="project-comments">
             <h4>Project Comments</h4>
+            <ul>
+                {projectComments.length > 0 && projectComments.map(comment => {
+                    return <li key={comment.id}>
+                        <div className="comment-author">
+                            <Avatar src={comment.photoUrl} />
+                            <p>{comment.displayName}</p>
+                        </div>
+                        <div className="comment-date">
+                            <p>{comment.createdAt}</p>
+                        </div>
+                        <div className="comments-contents">
+                            <p>{comment.content}</p>
+                        </div>
+                    </li>
+                })}
+            </ul>
 
             <form className="add-comment" onSubmit={handleAddComment}>
                 <label>
