@@ -9,15 +9,16 @@ export default function ProjectComments({project}) {
     const [loading, setLoading] = useState("");
     const [error, setError] = useState("");
     const user = useSelector(state => state.user);
+    
 
     useEffect(() => {                   //separate fetch for comments only so whole project isn't reloaded every 2 seconds
 
         const getComments = async () => {               
-        const response = await fetch("/project/comments");
+        const response = await fetch(`/project/comments/${project._id}`);
         const data = await response.json();
 
         if(!response.ok) {
-          console.log("error getting comments");
+          console.log("error getting comments");                //need to use websockets for better performance
         }
 
         if(response.ok) {
@@ -51,22 +52,23 @@ export default function ProjectComments({project}) {
             // need to find better solution for id generation
         };
         
+        setProjectComments([...projectComments, commentToAdd]);  //add comment instantly without delay from fetching comments
 
         const response = await fetch(`/project/add-comment/${project._id}`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
             },
-            body: JSON.stringify(commentToAdd)
+            body: JSON.stringify(commentToAdd)      //needs improved since there's delays in comment add and disapearing temporarily
         });
 
         const data = await response.json();
 
-        console.log(data);
         if(!response.ok) {
             setError(data.error);
         }
 
+        setNewComment("");
         setLoading(false);
     }
 
@@ -81,7 +83,7 @@ export default function ProjectComments({project}) {
                             <p>{comment.displayName}</p>
                         </div>
                         <div className="comment-date">
-                            <p>{comment.createdAt}</p>
+                            <p>Date</p>
                         </div>
                         <div className="comments-contents">
                             <p>{comment.content}</p>
@@ -95,7 +97,7 @@ export default function ProjectComments({project}) {
                     <span>Add new comment:</span>
                     <textarea required onChange={e => setNewComment(e.target.value)} value={newComment} />
 
-                    <button disabled={loading} className="btn">{!loading ? "Add Comment" : "Loading..."}</button>
+                    <button disabled={loading} className="btn">Add Comment</button>
                     {error && <div className="error">{error}</div>}
                 </label>
             </form>

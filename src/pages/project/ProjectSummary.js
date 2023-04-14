@@ -1,5 +1,6 @@
 import "./Project.css"
 import Avatar from "../../components/avatar/Avatar";
+import React from "react"
 
 export default function ProjectSummary({project}) {
     var date = project.dueDate.split("T")[0].split("-");
@@ -12,9 +13,11 @@ export default function ProjectSummary({project}) {
             <p className="details">{project.details}</p>
             <h4>Project is assigned to:</h4>
             {project.assignedUserList.map(user => {
-                return <div key={user.id}>
+                return <React.Fragment key={user.id}>
+                <div key={user.id}>
                     <Avatar src={user.photoUrl} />
                 </div>
+                </React.Fragment>
             })}
         </div>
     )

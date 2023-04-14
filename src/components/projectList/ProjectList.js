@@ -1,6 +1,7 @@
 import "./ProjectList.css"
 import { Link } from "react-router-dom"
 import Avatar from "../avatar/Avatar";
+import React from "react";
 
 export default function ProjectList({projects}) {
 
@@ -18,9 +19,11 @@ export default function ProjectList({projects}) {
                     <div className="assigned-to">
                         <ul>
                             {project.assignedUserList.map(user => {
-                                return <li key={user._id}>
+                                return <React.Fragment key={user._id}>
+                                <li key={user._id}>
                                     <Avatar src={user.photoUrl} />
                                 </li>
+                                </React.Fragment>
                             })}
                         </ul>
                     </div>

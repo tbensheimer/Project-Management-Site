@@ -51,6 +51,10 @@
 .project-comments h4 {
   color: var(--heading-color);
 }
+.project-comments ul {
+  height: 320px;
+  overflow-y: scroll;
+}
 .project-comments li {
   padding: 16px;
   border-radius: 4px;
