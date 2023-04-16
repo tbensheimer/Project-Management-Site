@@ -20,7 +20,8 @@ const createProject = async (project) => {
             dueDate: project.dueDate,
             comments: project.comments,
             createdBy: project.createdBy,
-            assignedUserList: project.assignedUserList
+            assignedUserList: project.assignedUserList,
+            isCompleted: project.isCompleted
         })
     });
 

@@ -30,16 +30,19 @@ const projectSchema = new Schema({
     assignedUserList: {
         type: Array,
         required: true
+    },
+    isCompleted: {
+        type: Boolean
     }
 });
 
-projectSchema.statics.createProject = async function(name, details, category, dueDate, comments, createdBy, assignedUserList) {
+projectSchema.statics.createProject = async function(name, details, category, dueDate, comments, createdBy, assignedUserList, isCompleted) {
 
     if(!name || !details || !category || !dueDate || !comments || !createdBy || !assignedUserList) {
         throw Error('Please fill all fields');
     }
 
-    const project = await this.create({name, details, category, dueDate, comments, createdBy, assignedUserList});
+    const project = await this.create({name, details, category, dueDate, comments, createdBy, assignedUserList, isCompleted});
 
     if(project) {
         return project;

@@ -69,12 +69,12 @@ export default function Create() {
             dueDate: new Date(dueDate),
             comments: [],
             createdBy,
-            assignedUserList
+            assignedUserList,
+            isCompleted: false
         }
 
             const success = createProject(projectToCreate);    //success message (this works)
 
-            console.log(success);
             if(success) {
                 setSuccess("Project created successfully");
                 setName("");

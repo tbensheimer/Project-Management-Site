@@ -4,7 +4,7 @@ const mongoose = require('mongoose');
 const getAllProjects = async (req, res) => {
 
     try {
-        const projects = await Project.find();
+        const projects = await Project.find({isCompleted: 0});
 
         res.status(200).json({projects});
     }
@@ -15,9 +15,9 @@ const getAllProjects = async (req, res) => {
 
 const createProject = async (req, res) => {
     try {
-        const {name, details, category, dueDate, comments, createdBy, assignedUserList} = req.body;
+        const {name, details, category, dueDate, comments, createdBy, assignedUserList, isCompleted} = req.body;
 
-        const project = await Project.createProject(name, details, category, dueDate, comments, createdBy, assignedUserList);
+        const project = await Project.createProject(name, details, category, dueDate, comments, createdBy, assignedUserList, isCompleted);
 
         res.status(200).json({project});
 
@@ -90,4 +90,19 @@ const getProjectComments = async (req, res) => {
     }
 }
 
-module.exports = {getAllProjects, createProject, getProjectDetails, addProjectComment, getProjectComments};
+const completedProject = async (req, res) => {
+
+    try {
+    const project = req.body;
+
+    const completedProject = await Project.findOneAndUpdate(project._id, project);
+
+    return res.status(200).json({complete: completedProject});
+    }
+    catch (error) {
+        return res.status(400).json({error: error.message});
+    }
+
+}
+
+module.exports = {getAllProjects, createProject, getProjectDetails, addProjectComment, getProjectComments, completedProject};
