@@ -33,10 +33,10 @@ export default function Create() {
     }, []);
 
     const categoryOptions = [
-        {label: "Development", value: "development"},       //FUTURE: add form + table to manage categories (using database)
+        {label: "Development", value: "Development"},       //FUTURE: add form + table to manage categories (using database)
         {label: "Marketing", value: "Marketing"},
-        {label: "Design", value: "design"},
-        {label: "Sales", value: "sales"}
+        {label: "Design", value: "Design"},
+        {label: "Sales", value: "Sales"}
     ]
 
     const handleFormSubmit = async (e) => {

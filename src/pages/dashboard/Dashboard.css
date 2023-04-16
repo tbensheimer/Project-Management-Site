@@ -1,5 +1,10 @@
+.project-list {
+    display: flex;
+    flex-direction: column;
+    padding-bottom: 20px;
+}
 .project-filter {
-    margin: 30px auto;
+    margin: 0 auto;
   }
   .project-filter nav {
     display: flex;

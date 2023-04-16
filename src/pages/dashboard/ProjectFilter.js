@@ -1,21 +1,19 @@
 import "./Dashboard.css";
-import {useState} from "react"
 
-export default function ProjectFilter() {
-    const [currentFilter, setCurrentFilter] = useState('All');
+export default function ProjectFilter({filter, changeFilter}) {
 
     const filterList = ['All', 'Mine', 'Development', 'Marketing', 'Design', 'Sales'];
 
-    const handleFilter = (filter) => {
-        setCurrentFilter(filter);
+    const changeFilterClick = (filter) => {
+        changeFilter(filter);
     }
 
     return (
         <div className="project-filter">
             <nav>
                 <p>Filter By:</p>
-                {filterList.map(filter => {
-                    return <button key={filter} onClick={() => handleFilter(filter)} className={currentFilter === filter ? "active" : ""}>{filter}</button> 
+                {filterList.map(filterOption => {
+                    return <button key={filterOption} onClick={() => changeFilterClick(filterOption)} className={filter === filterOption ? "active" : ""}>{filterOption}</button> 
                 })}
             </nav>
         </div>
