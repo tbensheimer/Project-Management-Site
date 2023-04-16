@@ -2,6 +2,7 @@ import "./Project.css";
 import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import Avatar from "../../components/avatar/Avatar";
+import formatDistanceToNow from "date-fns/formatDistanceToNow";
 
 export default function ProjectComments({project}) {
     const [newComment, setNewComment] = useState("");
@@ -83,7 +84,7 @@ export default function ProjectComments({project}) {
                             <p>{comment.displayName}</p>
                         </div>
                         <div className="comment-date">
-                            <p>Date</p>
+                            <p>{formatDistanceToNow(new Date(comment.createdAt), {addSuffix: true})}</p>
                         </div>
                         <div className="comments-contents">
                             <p>{comment.content}</p>
