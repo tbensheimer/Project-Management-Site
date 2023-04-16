@@ -54,6 +54,11 @@ export default function Create() {
             return;
         }
 
+        if(Date.now() > new Date(dueDate)) {
+            setFormError("Can't set due date in the past");
+            return;
+        }
+
         const createdBy = {                         //user signed in info
             displayName: user.displayName,
             profileUrl: user.profileUrl,
@@ -106,12 +111,12 @@ export default function Create() {
 
             <label>
                 <span>Category:</span>
-                <Select options={categoryOptions} onChange={option => setCategory(option)} />
+                <Select value={category} options={categoryOptions} onChange={option => setCategory(option)} />
             </label>
 
             <label>
                 <span>Assign Users:</span>
-                <Select isMulti options={userOptions} onChange={option => setAssignedUsers(option)} />  
+                <Select value={assignedUsers} isMulti options={userOptions} onChange={option => setAssignedUsers(option)} />  
             </label>
 
             <label>
