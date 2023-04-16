@@ -1,5 +1,7 @@
 const Project = require('../models/Project');
 const mongoose = require('mongoose');
+let ObjectId = mongoose.Types.ObjectId; 
+
 
 const getAllProjects = async (req, res) => {
 
@@ -95,7 +97,9 @@ const completedProject = async (req, res) => {
     try {
     const project = req.body;
 
-    const completedProject = await Project.findOneAndUpdate(project._id, project);
+    console.log(project);
+
+    const completedProject = await Project.findOneAndUpdate({_id: new ObjectId(project._id)}, {isCompleted: true});
 
     return res.status(200).json({complete: completedProject});
     }

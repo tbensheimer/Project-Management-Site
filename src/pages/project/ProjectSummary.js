@@ -10,10 +10,13 @@ export default function ProjectSummary({project}) {
     const navigate = useNavigate();
     const user = useSelector(state => state.user);
     const [error, setError] = useState(null);
+    const [loading, setLoading] = useState(null);
 
-    const handleDelete = async () => {
+    const handleComplete = async () => {
+        setError(null);
+        setLoading(true);
 
-        if (user._id === project.createdBy.id) {
+        if (user._id === project.createdBy._id) {
         
             project.isCompleted = true;
 
@@ -29,10 +32,12 @@ export default function ProjectSummary({project}) {
 
             if(response.ok) {
                 navigate('/');
+                setLoading(false);
             }
 
             if(!response.ok) {
                 setError(data.error);
+                setLoading(false);
             }
         }
         else {
@@ -42,19 +47,21 @@ export default function ProjectSummary({project}) {
     }
 
     return (
+        <div>
         <div className="project-summary">
             <h2 className="page-title">{project.name}</h2>
             <p className="due-date">Project due by {formattedDate}</p>
             <p className="details">{project.details}</p>
             <h4>Project is assigned to:</h4>
             {project.assignedUserList.map(user => {
-                return <React.Fragment key={user.id}>
-                <div key={user.id}>
+                return <React.Fragment key={user._id}>
+                <div className="avatar" key={user._id}>
                     <Avatar src={user.photoUrl} />
                 </div>
                 </React.Fragment>
             })}
-            <button onClick={handleDelete} className="btn">Mark as Complete</button>
+            </div>
+            <button disabled={loading} onClick={handleComplete} className="btn">{!loading ? "Mark as Complete" : "Loading..."}</button>
             {error && <div className="error">{error}</div>}
         </div>
     )

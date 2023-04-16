@@ -34,6 +34,9 @@ const projectSchema = new Schema({
     isCompleted: {
         type: Boolean
     }
+},
+{
+    strict: false
 });
 
 projectSchema.statics.createProject = async function(name, details, category, dueDate, comments, createdBy, assignedUserList, isCompleted) {

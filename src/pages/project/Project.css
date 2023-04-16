@@ -52,7 +52,7 @@
   color: var(--heading-color);
 }
 .project-comments ul {
-  height: 320px;
+  max-height: 320px;
   overflow-y: scroll;
 }
 .project-comments li {
