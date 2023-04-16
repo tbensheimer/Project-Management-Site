@@ -8,7 +8,6 @@ import {addProject} from "../../redux/store";
 export default function Create() {
     const users = useSelector(state => state.users);
     const user = useSelector(state => state.user);
-    const projects = useSelector(state => state.projects);
     const [userOptions, setUserOptions] = useState([]);
     const {createProject, loading, error} = useProject();
     const dispatch = useDispatch();

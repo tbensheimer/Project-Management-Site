@@ -99,7 +99,7 @@ const completedProject = async (req, res) => {
 
     const completedProject = await Project.findOneAndUpdate({_id: new ObjectId(project._id)}, {isCompleted: true});
 
-    return res.status(200).json({complete: completedProject});
+    return res.status(200).json(completedProject);
     }
     catch (error) {
         return res.status(400).json({error: error.message});

@@ -2,12 +2,14 @@ import "./Project.css"
 import Avatar from "../../components/avatar/Avatar";
 import React, {useState} from "react"
 import {useNavigate} from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { removeCompleteProject } from "../../redux/store";
 
 export default function ProjectSummary({project}) {
     var date = project.dueDate.split("T")[0].split("-");
     var formattedDate = `${date[1]}/${date[2]}/${date[0]}`;
     const navigate = useNavigate();
+    const dispatch = useDispatch();
     const user = useSelector(state => state.user);
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(null);
@@ -31,6 +33,7 @@ export default function ProjectSummary({project}) {
             const data = await response.json();
 
             if(response.ok) {
+                dispatch(removeCompleteProject(data))
                 navigate('/');
                 setLoading(false);
             }

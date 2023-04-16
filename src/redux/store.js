@@ -30,6 +30,11 @@ const projectSlice = createSlice({
         },
         addProject: (state, action) => {
             state.projects = [...state.projects, action.payload];
+        },
+        removeCompleteProject: (state, action) => {
+            const index = state.projects.findIndex(project => project._id === action.payload._id);
+
+            state.projects.splice(index, 1);
         }
     }
 });
@@ -38,8 +43,8 @@ const store = configureStore({
     reducer: projectSlice.reducer
 });
 
-const {login, logout, setUsers, setOnline, setProjects, addProject} = projectSlice.actions;
+const {login, logout, setUsers, setOnline, setProjects, addProject, removeCompleteProject} = projectSlice.actions;
 
 //redux functions here
 
-export {store, login, logout, setUsers, setOnline, setProjects, addProject}
+export {store, login, logout, setUsers, setOnline, setProjects, addProject, removeCompleteProject}
