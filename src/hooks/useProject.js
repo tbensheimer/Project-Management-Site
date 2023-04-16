@@ -34,7 +34,7 @@ const createProject = async (project) => {
 
     if(response.ok) {
         setLoading(false);
-        return true;
+        return data.project;
     }
 }
 return {error, loading, createProject}

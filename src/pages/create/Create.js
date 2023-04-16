@@ -1,14 +1,17 @@
 import "./Create.css"
 import Select from "react-select";
 import {useState, useEffect} from "react";
-import {useSelector} from "react-redux";
+import {useSelector, useDispatch} from "react-redux";
 import useProject from "../../hooks/useProject";
+import {addProject} from "../../redux/store";
 
 export default function Create() {
     const users = useSelector(state => state.users);
     const user = useSelector(state => state.user);
+    const projects = useSelector(state => state.projects);
     const [userOptions, setUserOptions] = useState([]);
     const {createProject, loading, error} = useProject();
+    const dispatch = useDispatch();
 
     // form fields
     const [name, setName] = useState("");
@@ -37,7 +40,7 @@ export default function Create() {
         {label: "Sales", value: "sales"}
     ]
 
-    const handleFormSubmit = (e) => {
+    const handleFormSubmit = async (e) => {
         e.preventDefault();
         setSuccess(null);
         setFormError(null);
@@ -73,15 +76,17 @@ export default function Create() {
             isCompleted: false
         }
 
-            const success = createProject(projectToCreate);    //success message (this works)
+            const createdProject = await createProject(projectToCreate);    //success message (this works)
 
-            if(success) {
+            if(createdProject) {
                 setSuccess("Project created successfully");
                 setName("");
                 setDetails("");
                 setCategory("");
                 setDueDate("");
                 setAssignedUsers("");
+
+                dispatch(addProject(createdProject));
             }
     }
 
