@@ -4,6 +4,7 @@ import Dashboard from "../../assets/Dashboard.svg"
 import Add from "../../assets/Add.svg"
 import Avatar from "../avatar/Avatar";
 import { useSelector } from "react-redux";
+import Check from "../../assets/check.svg";
 
 export default function Sidebar() {
     const user = useSelector(state => state.user);
@@ -26,6 +27,12 @@ export default function Sidebar() {
                         <li><NavLink to="/create">
                         <img src={Add} alt="Plus icon" />
                         <span>New Project</span>
+                        </NavLink>
+                        </li>
+
+                        <li><NavLink to="/completed-projects">
+                        <img src={Check} alt="Check icon" />
+                        <span>Completed Projects</span>
                         </NavLink>
                         </li>
                     </ul>

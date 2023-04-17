@@ -1,9 +1,11 @@
 const express = require('express');
-const {getAllProjects, createProject, getProjectDetails, addProjectComment, getProjectComments, completedProject} = require("../controllers/projectController");
+const {getAllProjects, createProject, getProjectDetails, addProjectComment, getProjectComments, completedProject, getCompletedProjects} = require("../controllers/projectController");
 
 const router = express.Router();
 
 router.get("/projects", getAllProjects);
+
+router.get("/completed-projects", getCompletedProjects);
 
 router.post("/create", createProject);
 

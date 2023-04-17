@@ -10,8 +10,9 @@ import Navbar from './components/navbar/Navbar';
 import Sidebar from './components/sidebar/Sidebar';
 import OnlineUsers from "./components/online-users/OnlineUsers";
 import { useDispatch } from 'react-redux';
-import { setUsers, login, setProjects } from './redux/store';
+import { setUsers, login, setProjects, setCompletedProjects } from './redux/store';
 import { useEffect } from 'react';
+import History from './pages/history/History';
 
 function App() {
   const user = useSelector(state => state.user);
@@ -49,6 +50,30 @@ getAllProjects();
     //         // eslint-disable-next-line
     }, [dispatch]);
 
+    useEffect(() => {
+      const getAllCompletedProjects = async () => {
+        // setLoading(true);
+        // setError(null);
+
+    const response = await fetch("/project/completed-projects");
+
+    const data = await response.json();
+
+    if(!response.ok) {
+        // setError(data.error)
+        // setLoading(false);
+    }
+
+    if(response.ok) {
+        // setLoading(false);
+        dispatch(setCompletedProjects(data.projects));
+    }
+};
+
+getAllCompletedProjects();
+    //         // eslint-disable-next-line
+    }, [dispatch]);
+
     useEffect(() => {                   // make this a hook?
 
         const getUsers = async () => {                //need to figure out how to set offline if inactive and if browser closed
@@ -82,6 +107,8 @@ getAllProjects();
       <Navbar />
       <Routes>
         <Route path="/" element={user ? <Dashboard /> : <Navigate to="/login"/>}></Route>
+
+        <Route path="/completed-projects" element={user ? <History /> : <Navigate to="/login"/>}></Route>
 
         <Route path="/create" element={user ? <Create /> : <Navigate to="/login"/>}></Route>
 
