@@ -4,47 +4,30 @@ import React, {useState} from "react"
 import {useNavigate} from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { removeCompleteProject } from "../../redux/store";
+import useFetch from "../../hooks/useFetch";
 
 export default function ProjectSummary({project}) {
-    var date = project.dueDate.split("T")[0].split("-");
-    var formattedDate = `${date[1]}/${date[2]}/${date[0]}`;
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const user = useSelector(state => state.user);
-    const [error, setError] = useState(null);
-    const [loading, setLoading] = useState(null);
+    const {loading, error, post} = useFetch('');
+    const [completeError, setCompleteError] = useState(null);
+
+    var date = project.dueDate.split("T")[0].split("-");
+    var formattedDate = `${date[1]}/${date[2]}/${date[0]}`;
 
     const handleComplete = async () => {
-        setError(null);
-        setLoading(true);
-
         if (user._id === project.createdBy._id) {
-        
             project.isCompleted = true;
-
-            const response = await fetch('/project/complete', {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify(project)
-            });
-
-            const data = await response.json();
-
-            if(response.ok) {
-                dispatch(removeCompleteProject(data))
-                navigate('/');
-                setLoading(false);
-            }
-
-            if(!response.ok) {
-                setError(data.error);
-                setLoading(false);
-            }
+            const result = await post('/project/complete', project);
+           
+            if(result) {
+            dispatch(removeCompleteProject(result))
+            navigate('/');
+        }
         }
         else {
-            setError("Can't mark as complete, you are not the creator of the project");
+            setCompleteError("Can't mark as complete, you are not the creator of the project");
             return;
         }
     }
@@ -64,8 +47,10 @@ export default function ProjectSummary({project}) {
                 </React.Fragment>
             })}
             </div>
-            <button disabled={loading} onClick={handleComplete} className="btn">{!loading ? "Mark as Complete" : "Loading..."}</button>
+            {!project.isCompleted && <button disabled={loading} onClick={handleComplete} className="btn">{!loading ? "Mark as Complete" : "Loading..."}</button>}
             {error && <div className="error">{error}</div>}
+            {completeError && <div className="error">{completeError}</div>}
+            {project.isCompleted && <div className="success">Marked Complete</div>}
         </div>
     )
 }
