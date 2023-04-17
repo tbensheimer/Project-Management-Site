@@ -1,4 +1,4 @@
-import "./Dashboard.css";
+import "./ProjectFilter.css";
 
 export default function ProjectFilter({filter, changeFilter}) {
 

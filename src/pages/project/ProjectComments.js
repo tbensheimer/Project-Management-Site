@@ -33,7 +33,7 @@ export default function ProjectComments({project, listRef}) {
     }, 3000);  
 
     return () => clearInterval(interval);
-
+    // eslint-disable-next-line
 }, []);
 
     const handleAddComment = async (e) => {

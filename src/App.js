@@ -96,6 +96,7 @@ getAllCompletedProjects();
     }, 10000);          //function every 10 seconds for update   
 
     return () => clearInterval(interval);
+    
     }, [dispatch])
 
 

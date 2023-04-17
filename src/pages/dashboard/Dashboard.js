@@ -1,7 +1,7 @@
 import ProjectList from "../../components/projectList/ProjectList";
 import "./Dashboard.css"
 import { useSelector } from "react-redux";
-import ProjectFilter from "./ProjectFilter";
+import ProjectFilter from "../../components/projectFilter/ProjectFilter";
 import { useState } from "react";
 
 export default function Dashboard() {
