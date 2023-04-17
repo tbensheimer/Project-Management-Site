@@ -3,26 +3,19 @@ import { useState, useEffect} from "react";
 import { useSelector } from "react-redux";
 import Avatar from "../../components/avatar/Avatar";
 import formatDistanceToNow from "date-fns/formatDistanceToNow";
+import useFetch from "../../hooks/useFetch";
 
 export default function ProjectComments({project, listRef}) {
     const [newComment, setNewComment] = useState("");
     const [projectComments, setProjectComments] = useState([]);
-    const [loading, setLoading] = useState("");
-    const [error, setError] = useState("");
     const user = useSelector(state => state.user);
+    const {get, post, error} = useFetch('');
 
-    useEffect(() => {                   //separate fetch for comments only so whole project isn't reloaded every 2 seconds
-
-        const getComments = async () => {               
-        const response = await fetch(`/project/comments/${project._id}`);
-        const data = await response.json();
-
-        if(!response.ok) {
-          console.log("error getting comments");                //need to use websockets for better performance
-        }
-
-        if(response.ok) {
-        setProjectComments(data.comments)
+    useEffect(() => {
+        const getComments = async () => {    
+        const result = await get(`/project/comments/${project._id}`);
+        if(result) {
+        setProjectComments(result.comments);
         }
     }
 
@@ -38,8 +31,6 @@ export default function ProjectComments({project, listRef}) {
 
     const handleAddComment = async (e) => {
         e.preventDefault();
-        setError(null);
-        setLoading(true);
 
         const commentToAdd = {
             displayName: user.displayName,
@@ -49,25 +40,9 @@ export default function ProjectComments({project, listRef}) {
             id: Math.random()                      
             // need to find better solution for id generation
         };
-        
-        // setProjectComments([...projectComments, commentToAdd]);  //add comment instantly without delay from fetching comments
+
         setNewComment("");
-
-        const response = await fetch(`/project/add-comment/${project._id}`, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(commentToAdd)      //needs improved since there's delays in comment add and disapearing temporarily
-        });
-
-        const data = await response.json();
-
-        if(!response.ok) {
-            setError(data.error);
-        }
-
-        setLoading(false);
+        await post(`/project/add-comment/${project._id}`, commentToAdd);
     }
 
     return (
@@ -95,7 +70,7 @@ export default function ProjectComments({project, listRef}) {
                     <span>Add new comment:</span>
                     <textarea required onChange={e => setNewComment(e.target.value)} value={newComment} />
 
-                    <button disabled={loading} className="btn">Add Comment</button>
+                    <button className="btn">Add Comment</button>
                     {error && <div className="error">{error}</div>}
                 </label>
             </form>
