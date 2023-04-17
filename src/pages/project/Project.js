@@ -3,37 +3,29 @@ import { useParams } from "react-router"
 import { useEffect, useState, useRef } from "react";
 import ProjectSummary from "./ProjectSummary";
 import ProjectComments from "./ProjectComments";
+import useFetch from "../../hooks/useFetch";
 
 export default function Project() {
     const id = useParams().id;
-    const [loading, setLoading] = useState(false);
-    const [error, setError] = useState("");
     const [project, setProject] = useState(null);
     const listRef = useRef();
+    const {get, loading, error} = useFetch('');
 
     useEffect(() => {
-
         const fetchProjectDetails = async () => {
-            setError(null);
-            setLoading(true);
+        const result = await get(`/project/${id}`);
 
-            const response = await fetch(`/project/${id}`);
+        if (result) {
+            setProject(result);
 
-            const data = await response.json();
-
-            if(response.ok) {
-                setProject(data);
-                setError(null);
-                setLoading(false);
-                listRef.current.scroll({top: listRef.current.scrollHeight, behavior: "smooth"});
-            }
-
-            if(!response.ok) {
-                setError(data.error);
-                setLoading(false);
+            if (listRef.current && listRef.current.scrollHeight > 0) {
+            listRef.current.scroll({top: listRef.current.scrollHeight, behavior: "smooth"});
             }
         }
+    };
+
         fetchProjectDetails();
+
     }, [id]);
 
     return (
