@@ -13,12 +13,12 @@ import { useDispatch } from 'react-redux';
 import { setUsers, login, setProjects, setCompletedProjects } from './redux/store';
 import { useEffect } from 'react';
 import History from './pages/history/History';
+import useFetch from './hooks/useFetch';
 
 function App() {
   const user = useSelector(state => state.user);
   const dispatch = useDispatch();
-  // const [error, setError] = useState(null);
-  // const [loading, setLoading] = useState(false);
+  const {get} = useFetch('');
 
     useEffect(() => {
       const storedUser = JSON.parse(localStorage.getItem("user"));
@@ -26,46 +26,22 @@ function App() {
       if(storedUser) {
         dispatch(login(storedUser));
       }
-
       const getAllProjects = async () => {
-        // setLoading(true);
-        // setError(null);
+        const data = await get('/project/projects');
 
-    const response = await fetch("/project/projects");
-
-    const data = await response.json();
-
-    if(!response.ok) {
-        // setError(data.error)
-        // setLoading(false);
-    }
-
-    if(response.ok) {
-        // setLoading(false);
+        if(data) {
         dispatch(setProjects(data.projects));
-    }
+        }
 };
-
 getAllProjects();
     //         // eslint-disable-next-line
     }, [dispatch]);
 
     useEffect(() => {
       const getAllCompletedProjects = async () => {
-        // setLoading(true);
-        // setError(null);
+    const data = await get("/project/completed-projects");
 
-    const response = await fetch("/project/completed-projects");
-
-    const data = await response.json();
-
-    if(!response.ok) {
-        // setError(data.error)
-        // setLoading(false);
-    }
-
-    if(response.ok) {
-        // setLoading(false);
+    if(data) {
         dispatch(setCompletedProjects(data.projects));
     }
 };
@@ -74,31 +50,22 @@ getAllCompletedProjects();
     //         // eslint-disable-next-line
     }, [dispatch]);
 
-    useEffect(() => {                   // make this a hook?
+    useEffect(() => {                 
 
-        const getUsers = async () => {                //need to figure out how to set offline if inactive and if browser closed
-        const response = await fetch("/user/users");
-        const data = await response.json();
-
-        if(!response.ok) {
-          console.log("error getting users");
-        }
-
-        if(response.ok) {
+        const getUsers = async () => {                //need to figure out how to set offline/online if inactive/active and if browser closed
+        const data = await get('/user/users')
+        if(data) {
             dispatch(setUsers(data.users))
         }
     }
-
     getUsers(); 
 
    const interval = setInterval(() => {
     getUsers();
-    }, 10000);          //function every 10 seconds for update   
+    }, 10000);          
 
     return () => clearInterval(interval);
-    
     }, [dispatch])
-
 
   return (
     <BrowserRouter>

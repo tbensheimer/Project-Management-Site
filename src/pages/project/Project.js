@@ -25,7 +25,7 @@ export default function Project() {
     };
 
         fetchProjectDetails();
-
+    // eslint-disable-next-line
     }, [id]);
 
     return (
