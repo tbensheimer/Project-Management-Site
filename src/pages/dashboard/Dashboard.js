@@ -27,11 +27,8 @@ export default function Dashboard() {
                 })
                 return assignedToMe
             case 'Development':
-                return project.category === filter
             case 'Design':
-                return project.category === filter
             case 'Sales':
-                return project.category === filter
             case 'Marketing':
                 return project.category === filter
             default:
@@ -42,7 +39,7 @@ export default function Dashboard() {
 
     return (
         <div className="project-list">
-            {projects.length === 0 && <p>No Projects</p>}
+            {projects.length === [] && <p>No Projects</p>}
             {projects.length > 0 && <ProjectFilter filter={filter} changeFilter={changeFilter} />}
             {projects.length > 0 && <ProjectList projects={filteredProjects} />}
         </div>
