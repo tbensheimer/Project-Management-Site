@@ -1,6 +1,6 @@
 import "./Project.css"
 import { useParams } from "react-router"
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import ProjectSummary from "./ProjectSummary";
 import ProjectComments from "./ProjectComments";
 
@@ -9,6 +9,7 @@ export default function Project() {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState("");
     const [project, setProject] = useState(null);
+    const listRef = useRef();
 
     useEffect(() => {
 
@@ -24,6 +25,7 @@ export default function Project() {
                 setProject(data);
                 setError(null);
                 setLoading(false);
+                listRef.current.scroll({top: listRef.current.scrollHeight, behavior: "smooth"});
             }
 
             if(!response.ok) {
@@ -38,7 +40,7 @@ export default function Project() {
         <div className="project-details">
             {loading && <div className="loading">Loading...</div>}
             {project && <ProjectSummary project={project} /> }
-            {project && <ProjectComments project={project} />}
+            {project && <ProjectComments project={project} listRef={listRef} />}
             {error && <div className="error">{error}</div>}
         </div>
     )

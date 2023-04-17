@@ -1,16 +1,15 @@
 import "./Project.css";
-import { useState, useEffect } from "react";
+import { useState, useEffect} from "react";
 import { useSelector } from "react-redux";
 import Avatar from "../../components/avatar/Avatar";
 import formatDistanceToNow from "date-fns/formatDistanceToNow";
 
-export default function ProjectComments({project}) {
+export default function ProjectComments({project, listRef}) {
     const [newComment, setNewComment] = useState("");
     const [projectComments, setProjectComments] = useState([]);
     const [loading, setLoading] = useState("");
     const [error, setError] = useState("");
     const user = useSelector(state => state.user);
-    
 
     useEffect(() => {                   //separate fetch for comments only so whole project isn't reloaded every 2 seconds
 
@@ -31,16 +30,14 @@ export default function ProjectComments({project}) {
 
    const interval = setInterval(() => {
     getComments();
-    }, 5000);  
+    }, 3000);  
 
     return () => clearInterval(interval);
 
 }, []);
 
-
     const handleAddComment = async (e) => {
         e.preventDefault();
-
         setError(null);
         setLoading(true);
 
@@ -53,7 +50,7 @@ export default function ProjectComments({project}) {
             // need to find better solution for id generation
         };
         
-        setProjectComments([...projectComments, commentToAdd]);  //add comment instantly without delay from fetching comments
+        // setProjectComments([...projectComments, commentToAdd]);  //add comment instantly without delay from fetching comments
         setNewComment("");
 
         const response = await fetch(`/project/add-comment/${project._id}`, {
@@ -76,7 +73,7 @@ export default function ProjectComments({project}) {
     return (
         <div className="project-comments">
             <h4>Project Comments</h4>
-            <ul>
+            <ul ref={listRef}>
                 {projectComments.length > 0 && projectComments.map(comment => {
                     return <li key={comment.id}>
                         <div className="comment-author">
