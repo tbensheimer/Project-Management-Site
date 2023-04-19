@@ -34,7 +34,7 @@ function App() {
         }
 };
 getAllProjects();
-    //         // eslint-disable-next-line
+       // eslint-disable-next-line
     }, [dispatch]);
 
     useEffect(() => {
@@ -47,7 +47,7 @@ getAllProjects();
 };
 
 getAllCompletedProjects();
-    //         // eslint-disable-next-line
+        // eslint-disable-next-line
     }, [dispatch]);
 
     useEffect(() => {                 
@@ -65,6 +65,7 @@ getAllCompletedProjects();
     }, 10000);          
 
     return () => clearInterval(interval);
+    // eslint-disable-next-line
     }, [dispatch])
 
   return (

@@ -15,6 +15,17 @@
   .project-list h4 {
     font-size: 0.9em;
     color: var(--heading-color);
+    display: flex;
+    justify-content: space-between;
+  }
+  .project-list h4 span.danger {
+    color: rgb(196, 4, 4);
+  }
+  .project-list h4 span.warning {
+    color: rgba(223, 183, 7, 0.922);
+  }
+  .project-list h4 span.good{
+    color: rgb(42, 179, 42);
   }
   .project-list p {
     color: var(--text-color);
