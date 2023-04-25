@@ -18,6 +18,9 @@
     display: flex;
     justify-content: space-between;
   }
+  .project-list h4 span .late {
+    margin-right: 10px;
+  }
   .project-list h4 span.danger {
     color: rgb(196, 4, 4);
   }

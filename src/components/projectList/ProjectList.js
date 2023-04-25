@@ -34,10 +34,9 @@ export default function ProjectList({projects}) {
                     description = "Late!";
                 }
 
-
                 return <Link to={`/projects/${project._id}`} key={project._id}>
                     <h4>{project.name}<span className={color}>
-                        {dateDifference < 0 && <i className="fa-solid fa-circle-exclamation fa-xl"></i>} 
+                        {dateDifference < 0 && <i className="fa-solid fa-circle-exclamation fa-xl late"></i>} 
                         {description && description} <i className="fa-solid fa-hourglass-start fa-xl"></i></span></h4>
                     <p>Due By: {formattedDate}</p>
                     <div className="assigned-to">

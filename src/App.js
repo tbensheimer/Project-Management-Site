@@ -14,6 +14,7 @@ import { setUsers, login, setProjects, setCompletedProjects } from './redux/stor
 import { useEffect } from 'react';
 import History from './pages/history/History';
 import useFetch from './hooks/useFetch';
+import Account from './pages/account/Account';
 
 function App() {
   const user = useSelector(state => state.user);
@@ -86,6 +87,8 @@ getAllCompletedProjects();
         <Route path="/signup" element={!user ? <Signup /> : <Navigate to="/"/>}></Route>
 
         <Route path="/projects/:id" element={user ? <Project /> : <Navigate to="/login"/>}></Route>
+
+        <Route path="/account/:id" element={user ? <Account /> : <Navigate to="/login"/>}></Route>
 
       </Routes>
       </div>
