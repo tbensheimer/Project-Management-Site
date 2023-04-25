@@ -46,7 +46,7 @@ const loginUser = async (req, res) => {
 
     const updatedUser = user;
     updatedUser.isOnline = true;
-    await User.findByIdAndUpdate(user._id, updatedUser) // test this in postman
+    await User.findByIdAndUpdate(user._id, updatedUser);
 
     const token = createToken(user._id);
 
@@ -73,4 +73,46 @@ const logoutUser = async (req, res) => {
     }
 }
 
-module.exports = {signupUser, loginUser, logoutUser, getAllUsers};
+const editAccount = async (req, res) => {
+    try {
+        const {_id, email, oldPassword, newPassword, displayName, profileImage} = req.body;
+
+        User.validate(email, newPassword, displayName, profileImage);
+
+        if(newPassword != '' && oldPassword != '') {
+            res.status(400).json({error: "Please provide your old password to change passwords"});
+            return;
+        }
+        else if(!newPassword && oldPassword) {
+            res.status(400).json({error: "Please provide a new password to change into. If you don't want to change passwords, then delete the old password."});
+            return;
+        }
+
+        if(newPassword && oldPassword) {
+            var user = await User.passwordCheck(_id, oldPassword, newPassword);
+            console.log("check 3" + oldPassword, newPassword);
+
+
+            if(user) {
+                user.email = email;
+                user.displayName = displayName;
+                user.profileUrl = profileUrl;
+
+
+                await User.findByIdAndUpdate(_id, updatedUser);
+            }
+        }
+        else if (!newPassword && !oldPassword) {
+          
+            await User.findByIdAndUpdate(_id, {email: email, displayName: displayName, profileUrl: profileImage});
+        }
+
+        returnres.status(200).json({success: "Successfully edited user!"});
+    }
+    catch (error) {
+        console.log("failed in catch");
+        res.status(400).json({error: error.message});
+    }
+}
+
+module.exports = {signupUser, loginUser, logoutUser, getAllUsers, editAccount};

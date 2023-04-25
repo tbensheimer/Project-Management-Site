@@ -116,7 +116,6 @@ const completedProject = async (req, res) => {
     catch (error) {
         return res.status(400).json({error: error.message});
     }
-
 }
 
 module.exports = {getAllProjects, createProject, getProjectDetails, addProjectComment, getProjectComments, completedProject, getCompletedProjects};

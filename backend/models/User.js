@@ -110,4 +110,50 @@ userSchema.statics.logout = async function (email) {
     return updated;
 }
 
+userSchema.statics.validate = async function (email, newPassword, displayName, profileUrl ) {
+
+    if(!email || !displayName || !profileUrl) {
+        throw Error('Please fill all fields1');
+    }
+    if(!validator.isEmail(email)) {
+        throw Error('Please enter a valid email');
+    }
+
+    if(newPassword != null && newPassword != "") {
+
+    if(!newPassword) {
+        throw Error('Please fill all fields2');
+    }
+
+    if(!validator.isStrongPassword(assword)) {
+        throw Error('Please enter a stronger password');
+    }
+}
+}
+
+userSchema.statics.passwordCheck = async function (_id, oldPassword, newPassword) {
+
+    const user = await this.findOne({_id});
+
+    if(!user) {
+        throw Error("No user associated with this email");
+    }
+
+    const isMatch = await bcrypt.compare(oldPassword, user.password);
+
+    if(isMatch) {
+
+        const salt = await bcrypt.genSalt(12);
+
+        const hashed = await bcrypt.hash(newPassword, salt);
+
+        user.password = hashed;
+
+        return user;
+    }
+    else {
+        throw Error('The password provided did not pass the password check.');
+    }
+}
+
 module.exports = mongoose.model("User", userSchema);

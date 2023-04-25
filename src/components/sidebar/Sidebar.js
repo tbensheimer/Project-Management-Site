@@ -35,6 +35,12 @@ export default function Sidebar() {
                         <span>Completed Projects</span>
                         </NavLink>
                         </li>
+
+                        <li><NavLink to={`/account/${user._id}`}>
+                        <i className="fa-regular fa-user"></i>
+                        <span>Edit Profile</span>
+                        </NavLink>
+                        </li>
                     </ul>
                 </nav>
             </div>
