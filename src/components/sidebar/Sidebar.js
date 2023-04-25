@@ -5,6 +5,7 @@ import Add from "../../assets/Add.svg"
 import Avatar from "../avatar/Avatar";
 import { useSelector } from "react-redux";
 import Check from "../../assets/check.svg";
+import IdleTimer from "../idleTimer/IdleTimer";
 
 export default function Sidebar() {
     const user = useSelector(state => state.user);
@@ -15,6 +16,7 @@ export default function Sidebar() {
                 <div className="user">
                    <Avatar src={user.profileUrl} />
                     <p>Hello {user.displayName}</p>
+                    <IdleTimer />
                 </div>
                 <nav className="links">
                     <ul>
