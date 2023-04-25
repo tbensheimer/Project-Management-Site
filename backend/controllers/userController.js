@@ -1,5 +1,7 @@
 const User = require('../models/User');
 const jwt = require('jsonwebtoken');
+const mongoose = require('mongoose');
+let ObjectId = mongoose.Types.ObjectId; 
 
 const createToken = (_id) => {
     return jwt.sign({_id}, process.env.SECRET, {expiresIn: '3d'});
@@ -77,9 +79,7 @@ const editAccount = async (req, res) => {
     try {
         const {_id, email, oldPassword, newPassword, displayName, profileImage} = req.body;
 
-        User.validate(email, newPassword, displayName, profileImage);
-
-        if(newPassword != '' && oldPassword != '') {
+        if(newPassword && !oldPassword) {
             res.status(400).json({error: "Please provide your old password to change passwords"});
             return;
         }
@@ -88,29 +88,28 @@ const editAccount = async (req, res) => {
             return;
         }
 
+       await User.validate(email, newPassword, displayName, profileImage);
+
         if(newPassword && oldPassword) {
             var user = await User.passwordCheck(_id, oldPassword, newPassword);
-            console.log("check 3" + oldPassword, newPassword);
-
 
             if(user) {
                 user.email = email;
                 user.displayName = displayName;
-                user.profileUrl = profileUrl;
+                user.profileUrl = profileImage;
 
-
-                await User.findByIdAndUpdate(_id, updatedUser);
+                await User.findByIdAndUpdate(_id, user);
             }
         }
         else if (!newPassword && !oldPassword) {
           
-            await User.findByIdAndUpdate(_id, {email: email, displayName: displayName, profileUrl: profileImage});
+            await User.findOneAndUpdate({_id: new ObjectId(_id)}, {email: email, displayName: displayName, profileUrl: profileImage});
+            
+            var user = await User.findOne({_id: new ObjectId(_id)});
         }
-
-        returnres.status(200).json({success: "Successfully edited user!"});
+            res.status(200).json(user);
     }
     catch (error) {
-        console.log("failed in catch");
         res.status(400).json({error: error.message});
     }
 }

@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import "./Account.css"
 import useFetch from "../../hooks/useFetch";
+import { login } from "../../redux/store";
 
 export default function Account() {
     const [email, setEmail] = useState('');
@@ -12,6 +13,7 @@ export default function Account() {
     const [profileError, setProfileError] = useState(null);
     const [success, setSuccess] = useState(null);
     const user = useSelector(state => state.user);
+    const dispatch = useDispatch();
     const {post, loading, error} = useFetch('');
 
 
@@ -22,20 +24,19 @@ export default function Account() {
                // eslint-disable-next-line
     }, [])
 
-    const handleEditSubmit = (e) => {
+    const handleEditSubmit = async (e) => {
         e.preventDefault();
         setSuccess(null);
 
-        var data = post('/user/account', {_id: user._id, email, oldPassword, newPassword, displayName, profileImage});
+        var updatedUser = await post('/user/account', {_id: user._id, email, oldPassword, newPassword, displayName, profileImage});
 
-        console.log("check 4, passed post");
-
-        if(data.success) {
-            setSuccess(data.success);
-            console.log("check 5" + data.success);
-
+        if(updatedUser) {
+            setSuccess("Saved changes!");
+            dispatch(login(updatedUser));
+            localStorage.setItem('user', JSON.stringify(updatedUser));
+            setOldPassword('');
+            setNewPassword('');
         }
-
     }
 
     const handleFileChange = async (e) => {

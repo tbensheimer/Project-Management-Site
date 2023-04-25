@@ -113,7 +113,7 @@ userSchema.statics.logout = async function (email) {
 userSchema.statics.validate = async function (email, newPassword, displayName, profileUrl ) {
 
     if(!email || !displayName || !profileUrl) {
-        throw Error('Please fill all fields1');
+        throw Error('Please fill all fields');
     }
     if(!validator.isEmail(email)) {
         throw Error('Please enter a valid email');
@@ -121,11 +121,7 @@ userSchema.statics.validate = async function (email, newPassword, displayName, p
 
     if(newPassword != null && newPassword != "") {
 
-    if(!newPassword) {
-        throw Error('Please fill all fields2');
-    }
-
-    if(!validator.isStrongPassword(assword)) {
+    if(!validator.isStrongPassword(newPassword)) {
         throw Error('Please enter a stronger password');
     }
 }
