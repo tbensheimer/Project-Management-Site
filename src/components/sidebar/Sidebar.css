@@ -43,6 +43,13 @@
     margin-right: 10px;
     filter: invert(100%);
   }
+  .sidebar .links .user-icon {
+    margin-right: 10px;
+    margin-top: 4px;
+  }
+  .sidebar .links .check-icon {
+    width: 25px;
+  }
   .sidebar .links a.active {
     color: #555;
     background: white;

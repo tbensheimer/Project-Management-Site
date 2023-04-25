@@ -31,13 +31,13 @@ export default function Sidebar() {
                         </li>
 
                         <li><NavLink to="/completed-projects">
-                        <img src={Check} alt="Check icon" />
+                        <img src={Check} alt="Check icon" className="check-icon" />
                         <span>Completed Projects</span>
                         </NavLink>
                         </li>
 
                         <li><NavLink to={`/account/${user._id}`}>
-                        <i className="fa-regular fa-user"></i>
+                        <i className="fa-regular fa-user user-icon"></i>
                         <span>Edit Profile</span>
                         </NavLink>
                         </li>
