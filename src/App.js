@@ -10,16 +10,46 @@ import Navbar from './components/navbar/Navbar';
 import Sidebar from './components/sidebar/Sidebar';
 import OnlineUsers from "./components/online-users/OnlineUsers";
 import { useDispatch } from 'react-redux';
-import { setUsers, login, setProjects, setCompletedProjects } from './redux/store';
+import { setUsers, login, setProjects, setCompletedProjects} from './redux/store';
 import { useEffect } from 'react';
 import History from './pages/history/History';
 import useFetch from './hooks/useFetch';
 import Account from './pages/account/Account';
+import useLogout from "./hooks/useLogout";
+import { useBeforeunload } from 'react-beforeunload';
+
 
 function App() {
   const user = useSelector(state => state.user);
   const dispatch = useDispatch();
+  const {logoutUser} = useLogout();
   const {get} = useFetch('');
+
+  // useEffect(() => {
+  //   const logoutBeforeWindowClose = async (e) => {
+  //     e.returnValue = "Sure?";
+  //     logoutUser();
+  //   }
+
+  
+
+  //   window.addEventListener('beforeunload', logoutBeforeWindowClose); //left off here logout when browsers
+
+  //   return () => {
+  //     window.removeEventListener('beforeunload', logoutBeforeWindowClose);
+  //   };
+  //          // eslint-disable-next-line
+  // }, []);
+
+
+  useBeforeunload((e) => {
+    var localStorageTime = parseInt(localStorage.getItem('storageTime'));
+    var currentTime = new Date().getTime();
+    var timeDifference = currentTime - localStorageTime;
+    if (timeDifference < 50) {
+      logoutUser();
+    }
+  })
 
     useEffect(() => {
       const storedUser = JSON.parse(localStorage.getItem("user"));
