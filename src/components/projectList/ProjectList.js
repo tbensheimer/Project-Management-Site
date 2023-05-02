@@ -1,7 +1,6 @@
 import "./ProjectList.css"
 import { Link } from "react-router-dom"
 import Avatar from "../avatar/Avatar";
-import React from "react";
 
 export default function ProjectList({projects}) {
 
@@ -34,19 +33,20 @@ export default function ProjectList({projects}) {
                     description = "Late!";
                 }
 
-                return <Link to={`/projects/${project._id}`} key={project._id}>
+                return <Link to={`/projects/${project._id}`} data-testid={project.name} key={project._id}>
                     <h4>{project.name}<span className={color}>
                         {dateDifference < 0 && <i className="fa-solid fa-circle-exclamation fa-xl late"></i>} 
-                        {description && description} <i className="fa-solid fa-hourglass-start fa-xl"></i></span></h4>
+                        {description && description} <i className="fa-solid fa-hourglass-start fa-xl"></i>
+                        </span></h4>
                     <p>Due By: {formattedDate}</p>
                     <div className="assigned-to">
                         <ul>
                             {project.assignedUserList.map(user => {
-                                return <React.Fragment key={user._id}>
+                                return <div key={user._id}>
                                 <li key={user._id}>
                                     <Avatar src={user.photoUrl} />
                                 </li>
-                                </React.Fragment>
+                                </div>
                             })}
                         </ul>
                     </div>

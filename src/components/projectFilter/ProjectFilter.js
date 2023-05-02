@@ -13,7 +13,7 @@ export default function ProjectFilter({filter, changeFilter}) {
             <nav>
                 <p>Filter By:</p>
                 {filterList.map(filterOption => {
-                    return <button key={filterOption} onClick={() => changeFilterClick(filterOption)} className={filter === filterOption ? "active" : ""}>{filterOption}</button> 
+                    return <button key={filterOption} id={filterOption} onClick={() => changeFilterClick(filterOption)} className={filter === filterOption ? "active" : ""}>{filterOption}</button> 
                 })}
             </nav>
         </div>
