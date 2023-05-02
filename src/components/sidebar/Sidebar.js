@@ -15,7 +15,7 @@ export default function Sidebar() {
             <div className="sidebar-content">
                 <div className="user">
                    <Avatar src={user.profileUrl} />
-                    <p>Hello {user.displayName}</p>
+                    <p data-testid='greeting'>Hello {user.displayName}</p>
                     <IdleTimer />
                 </div>
                 <nav className="links">
