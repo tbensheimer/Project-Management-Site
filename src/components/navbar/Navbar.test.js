@@ -5,16 +5,6 @@ import { Provider } from 'react-redux'
 import configureStore from 'redux-mock-store'
 import { BrowserRouter } from "react-router-dom";
 
-global.fetch = jest.fn(() => {
-Promise.resolve({
-    json: () => 
-    Promise.resolve({
-     
-    })
-})
-
-})
-
 describe('With redux provider environment', () => {
 
     let initialState= {
@@ -30,7 +20,6 @@ describe('With redux provider environment', () => {
 
 const mockStore = configureStore();
 let store
-
 
 it('Should render navbar component correctly', async () => {
     store = mockStore(initialState);

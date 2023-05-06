@@ -3,7 +3,7 @@ import '@testing-library/jest-dom'
 import ProjectList from "./ProjectList";
 import { BrowserRouter } from "react-router-dom";
 
-it('Should render Project List component correctly', () => {
+describe('Provide list of projects and properly configure due date formate', () => {
 
     let dueSoonDate = new Date();
     dueSoonDate.setDate(dueSoonDate.getDate() + 2);
@@ -55,6 +55,9 @@ it('Should render Project List component correctly', () => {
         isCompleted: false
     }
 ]
+
+it('Should render Project List component correctly', () => {
+
     render(<BrowserRouter><ProjectList projects={projects} /></BrowserRouter>)
 
     const projectList = screen.getAllByRole('link');
@@ -69,3 +72,17 @@ it('Should render Project List component correctly', () => {
     expect(dueByText.length).toBe(2);
     expect(avatars.length).toBe(2);
 })
+
+// it('Should render icons correctly based on how soon due date is', () => {
+//     render(<BrowserRouter><ProjectList projects={projects} /></BrowserRouter>)
+//     const dueSoonIcon1 = screen.getByTestId('due-date-Test 1');
+//     const dueIn8Icon2 = screen.getByTestId('due-date-Test 2');
+
+//     expect(dueSoonIcon1).toBeInTheDocument();
+//     expect(dueIn8Icon2).toBeInTheDocument();
+
+//     const danger = screen.getByText('danger');
+//     expect(danger).toBeInTheDocument();
+// })
+
+});

@@ -36,7 +36,7 @@ export default function ProjectList({projects}) {
                 return <Link to={`/projects/${project._id}`} data-testid={project.name} key={project._id}>
                     <h4>{project.name}<span className={color}>
                         {dateDifference < 0 && <i className="fa-solid fa-circle-exclamation fa-xl late"></i>} 
-                        {description && description} <i className="fa-solid fa-hourglass-start fa-xl"></i>
+                        {description && description} <i data-testid={`due-date-${project.name}`} className={`${color} fa-solid fa-hourglass-start fa-xl`}></i>
                         </span></h4>
                     <p>Due By: {formattedDate}</p>
                     <div className="assigned-to">
