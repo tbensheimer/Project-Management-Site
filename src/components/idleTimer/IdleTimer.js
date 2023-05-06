@@ -37,7 +37,7 @@ export default function IdleTimer() {
   return (
     <>
       <p className='details'>{state}</p>
-      <p className='details'>{remaining} seconds </p>
+      <p data-testid="seconds" className='details'>{remaining} seconds </p>
     </>
   )
 }
