@@ -40,13 +40,31 @@ it('Should render navbar component correctly', async () => {
 
     const logoutBtn = screen.getByText('Logout');
     const btns = screen.getAllByRole('button');
+    const dojoImg = screen.getByAltText('Dojo icon');
 
     expect(logoutBtn).toBeInTheDocument();
     expect(btns.length).toBe(1);
+    expect(dojoImg).toBeInTheDocument();
 
-    fireEvent.click(logoutBtn);
+    // fireEvent.click(logoutBtn);
 
     // expect(logoutBtn).not.toBeInTheDocument();
+})
+
+it('Should render navbar without user', async () => {
+    initialState.user = null;
+
+    store = mockStore(initialState);
+
+    await act(async() => render(<Provider store={store}><BrowserRouter><Navbar /></BrowserRouter></Provider>));
+
+const signupLink = screen.getByText('Signup');
+const loginLink = screen.getByText('Login');
+const dojoImg = screen.getByAltText('Dojo icon');
+
+expect(signupLink).toBeInTheDocument();
+expect(loginLink).toBeInTheDocument();
+expect(dojoImg).toBeInTheDocument();
 })
 
 });
