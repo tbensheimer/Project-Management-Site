@@ -1,4 +1,4 @@
-import { render, screen, fireEvent, act } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 import '@testing-library/jest-dom'
 import Navbar from "./Navbar";
 import { Provider } from 'react-redux'
@@ -21,11 +21,10 @@ describe('With redux provider environment', () => {
 const mockStore = configureStore();
 let store
 
-it('Should render navbar component correctly', async () => {
+it('Should render navbar component correctly with user', async () => {
     store = mockStore(initialState);
 
-    await act(async() => render(<Provider store={store}><BrowserRouter><Navbar /></BrowserRouter></Provider>));
-
+    render(<Provider store={store}><BrowserRouter><Navbar /></BrowserRouter></Provider>);
 
     const logoutBtn = screen.getByText('Logout');
     const btns = screen.getAllByRole('button');
@@ -35,17 +34,14 @@ it('Should render navbar component correctly', async () => {
     expect(btns.length).toBe(1);
     expect(dojoImg).toBeInTheDocument();
 
-    // fireEvent.click(logoutBtn);
-
-    // expect(logoutBtn).not.toBeInTheDocument();
 })
 
-it('Should render navbar without user', async () => {
+it('Should render navbar without user correctly', async () => {
     initialState.user = null;
 
     store = mockStore(initialState);
 
-    await act(async() => render(<Provider store={store}><BrowserRouter><Navbar /></BrowserRouter></Provider>));
+    render(<Provider store={store}><BrowserRouter><Navbar /></BrowserRouter></Provider>);
 
 const signupLink = screen.getByText('Signup');
 const loginLink = screen.getByText('Login');

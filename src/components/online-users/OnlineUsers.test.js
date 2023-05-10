@@ -40,7 +40,7 @@ describe('With redux provider environment', () => {
 const mockStore = configureStore();
 let store
 
-it('Should render online users component correctly', async () => {
+it('Should render online users component correctly', () => {
     store = mockStore(initialState);
 
     render(<Provider store={store}><BrowserRouter><OnlineUsers /></BrowserRouter></Provider>);
