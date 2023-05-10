@@ -83,22 +83,22 @@ export default function Account() {
 
             <label>
                 <span>Email:</span>
-                <input required type="email" onChange={e => setEmail(e.target.value)} value={email} />
+                <input required type="email" onChange={e => setEmail(e.target.value)} value={email} placeholder="Email" />
             </label>
 
             <label>
                 <span>Old Password Check:</span>
-                <input type="password" onChange={e => setOldPassword(e.target.value)} value={oldPassword} />
+                <input type="password" onChange={e => setOldPassword(e.target.value)} value={oldPassword} placeholder="Old Password"/>
             </label>
 
             <label>
                 <span>New Password:</span>
-                <input type="password" onChange={e => setNewPassword(e.target.value)} value={newPassword} />
+                <input type="password" onChange={e => setNewPassword(e.target.value)} value={newPassword} placeholder="New Password" />
             </label>
 
             <label>
                 <span>Display Name:</span>
-                <input required type="text" onChange={e => setDisplayName(e.target.value)} value={displayName} />
+                <input required type="text" onChange={e => setDisplayName(e.target.value)} value={displayName} placeholder="Display Name"/>
             </label>
 
             <label>
