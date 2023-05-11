@@ -101,27 +101,27 @@ export default function Create() {
             <form onSubmit={handleFormSubmit}>
             <label>
                 <span>Project Name:</span>
-                <input type="text" required onChange={e => setName(e.target.value)} value={name} />
+                <input type="text" required onChange={e => setName(e.target.value)} value={name} placeholder="Name..." />
             </label>
 
             <label>
                 <span>Project Details:</span>
-                <textarea type="text" required onChange={e => setDetails(e.target.value)} value={details} />
+                <textarea type="text" required onChange={e => setDetails(e.target.value)} value={details} placeholder="Details..."/>
             </label>
 
             <label>
-                <span>Category:</span>
+                <span data-testid="category">Category:</span>
                 <Select value={category} options={categoryOptions} onChange={option => setCategory(option)} />
             </label>
 
             <label>
-                <span>Assign Users:</span>
+                <span data-testid="users">Assign Users:</span>
                 <Select value={assignedUsers} isMulti options={userOptions} onChange={option => setAssignedUsers(option)} />  
             </label>
 
             <label>
                 <span>Due Date:</span>
-                <input type="date" required onChange={e => setDueDate(e.target.value)} value={dueDate} />
+                <input type="date" required onChange={e => setDueDate(e.target.value)} value={dueDate} placeholder="Due Date..."/>
             </label>
 
             <button disabled={loading} className="btn">{loading ? "Loading..." : "Create Project"}</button>
