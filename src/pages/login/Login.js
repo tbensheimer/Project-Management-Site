@@ -39,12 +39,12 @@ export default function Signup() {
 
             <label>
                 <span>Email:</span>
-                <input required type="email" onChange={e => setEmail(e.target.value)} value={email} />
+                <input required type="email" onChange={e => setEmail(e.target.value)} value={email}  placeholder="Email..." />
             </label>
 
             <label>
                 <span>Password:</span>
-                <input onFocus={findProfilePic} required type="password" onChange={e => setPassword(e.target.value)} value={password} />
+                <input onFocus={findProfilePic} required type="password" onChange={e => setPassword(e.target.value)} value={password} placeholder="Password..."/>
             </label>
 
             {!loading && <button className="btn">Login</button>}
