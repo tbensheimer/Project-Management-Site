@@ -33,7 +33,7 @@ export default function Create() {
     }, []);
 
     const categoryOptions = [
-        {label: "Development", value: "Development"},       //FUTURE: add form + table to manage categories (using database)
+        {label: "Development", value: "Development"},     
         {label: "Marketing", value: "Marketing"},
         {label: "Design", value: "Design"},
         {label: "Sales", value: "Sales"}
