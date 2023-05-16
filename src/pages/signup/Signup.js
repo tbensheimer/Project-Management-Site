@@ -60,22 +60,22 @@ export default function Signup() {
 
             <label>
                 <span>Email:</span>
-                <input required type="email" onChange={e => setEmail(e.target.value)} value={email} />
+                <input required type="email" onChange={e => setEmail(e.target.value)} value={email}  placeholder="Email..."/>
             </label>
 
             <label>
                 <span>Password:</span>
-                <input required type="password" onChange={e => setPassword(e.target.value)} value={password} />
+                <input required type="password" onChange={e => setPassword(e.target.value)} value={password} placeholder="Password..."/>
             </label>
 
             <label>
                 <span>Display Name:</span>
-                <input required type="text" onChange={e => setDisplayName(e.target.value)} value={displayName} />
+                <input required type="text" onChange={e => setDisplayName(e.target.value)} value={displayName} placeholder="Display Name..."/>
             </label>
 
             <label>
                 <span>Profile Picture:</span>
-                <input required type="file" onChange={handleFileChange} />
+                <input required type="file" onChange={handleFileChange} placeholder="Profile Pic..."/>
                 {profileImage && <div className="img-container">Preview:<img src={profileImage} className="profile-pic" alt="profile pic" /></div>}
 
             </label>
