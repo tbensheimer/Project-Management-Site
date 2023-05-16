@@ -19,12 +19,7 @@ describe('With redux provider environment', () => {
     let initialState= {
         projects: [],
         completedProjects: [],
-        user: {
-            _id: 1,
-            displayName: "Mario",
-            profileUrl: "mario.png",
-            email: "mario@gmail.com"
-        },
+        user: null,
         users: [
             {
                 _id: 1,
@@ -43,6 +38,7 @@ describe('With redux provider environment', () => {
                 displayName: "Bowser",
                 profileUrl: "bowser.png",
                 email: "bowser@gmail.com",
+                password: "bowser123",
                 isOnline: true
             }
         ]
@@ -58,13 +54,10 @@ it('Should render Login component correctly', () => {
 
     const email = screen.getByPlaceholderText("Email...");
     const password = screen.getByPlaceholderText("Password...");
+    const loginBtn = screen.getByRole('button');
 
     expect(email).toBeInTheDocument();
     expect(password).toBeInTheDocument();
-
-    // fireEvent.change(email, { target: { value: "bowser@gmail.com"}});
-
-    // const profilePic = screen.getByAltText("user avatar");
 
     // expect(profilePic).toBeInTheDocument();
     // expect(profilePic.src).toBe("bowser.png");
