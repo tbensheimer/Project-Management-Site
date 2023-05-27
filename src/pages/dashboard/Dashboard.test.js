@@ -1,10 +1,10 @@
-import { render, screen, fireEvent, cleanup } from "@testing-library/react";
+import { render, screen, cleanup } from "@testing-library/react";
 import '@testing-library/jest-dom'
 import { Provider } from 'react-redux'
 import configureStore from 'redux-mock-store'
 import { BrowserRouter } from "react-router-dom";
 import fetchMock from "jest-fetch-mock";
-import { useDispatch, useSelector } from "react-redux";
+import {useSelector } from "react-redux";
 import Dashboard from "./Dashboard";
 import React from "react";
 
@@ -131,7 +131,7 @@ it('Should render Dashboard component correctly', () => {
     expect(avatars.length).toBe(2);
 })
 
-it('Should render the component correctly', () => {
+it('Should render the filter component correctly', () => {
  
     render(<Provider store={store}><BrowserRouter><Dashboard /></BrowserRouter></Provider>)
 
