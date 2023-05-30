@@ -1,14 +1,13 @@
-import { render, screen, fireEvent } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 import '@testing-library/jest-dom'
 import Login from "./Login"
 import { Provider } from 'react-redux'
 import configureStore from 'redux-mock-store'
 import { BrowserRouter } from "react-router-dom";
 import fetchMock from "jest-fetch-mock";
+import userEvent from "@testing-library/user-event";
 
 describe('With redux provider environment', () => {
-
-    const rootURL = window.location.href;
 
     fetchMock.enableMocks();
 
@@ -25,12 +24,14 @@ describe('With redux provider environment', () => {
                 _id: 1,
                 displayName: "Mario",
                 profileUrl: "mario.png",
+                email: "mario@gmailcom",
                 isOnline: true
             },
             {
                 _id: 2, 
                 displayName: "Luigi",
                 profileUrl: "luigi.png",
+                email: "luigi@gmail.com",
                 isOnline: false
             },
             {
@@ -54,13 +55,23 @@ it('Should render Login component correctly', () => {
 
     const email = screen.getByPlaceholderText("Email...");
     const password = screen.getByPlaceholderText("Password...");
-    const loginBtn = screen.getByRole('button');
 
     expect(email).toBeInTheDocument();
     expect(password).toBeInTheDocument();
+})
 
-    // expect(profilePic).toBeInTheDocument();
-    // expect(profilePic.src).toBe("bowser.png");
+it('Should render profile pic', async () => {
+    store = mockStore(initialState);
+
+    render(<Provider store={store}><BrowserRouter><Login /></BrowserRouter></Provider>);
+
+    const email = screen.getByPlaceholderText("Email...");
+    const password = screen.getByPlaceholderText("Password...");
+
+    userEvent.type(email, "bowser@gmail.com");
+    userEvent.type(password, "bowser123");
+
+    expect(await screen.findByAltText('user avatar')).toBeInTheDocument();
 })
 
 });

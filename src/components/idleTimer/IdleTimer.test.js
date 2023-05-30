@@ -1,4 +1,4 @@
-import { render, screen, act } from "@testing-library/react";
+import { render, screen, fireEvent } from "@testing-library/react";
 import '@testing-library/jest-dom'
 import IdleTimer from "./IdleTimer"
 import { BrowserRouter } from "react-router-dom";
@@ -22,28 +22,23 @@ describe('With redux provider environment', () => {
 const mockStore = configureStore();
 let store;
 
+
 it('Should render Active state', async () => {
 
-    const timeout = async (seconds) => {
-        await setTimeout(null, seconds);
-    }
 
     store = mockStore(initialState);
 
     render(<Provider store={store}><BrowserRouter><IdleTimer /></BrowserRouter></Provider>);
 
-    await timeout(1000);
-
     const state = screen.getByText('Active');
+
+    fireEvent.click(state);
+
     const seconds = screen.getByTestId('seconds');
 
-
     expect(state).toBeInTheDocument();
-    expect(state.textContent).toBe('Active');
-
     expect(seconds).toBeInTheDocument();
+    expect(seconds).toBe(479);
 
-    // await timeout(480001);
-    // expect(state.textContent).toBe('Idle');
-})
+});
 });
