@@ -23,9 +23,7 @@ const mockStore = configureStore();
 let store;
 
 
-it('Should render Active state', async () => {
-
-
+it('Should render Active state', () => {
     store = mockStore(initialState);
 
     render(<Provider store={store}><BrowserRouter><IdleTimer /></BrowserRouter></Provider>);
@@ -38,7 +36,6 @@ it('Should render Active state', async () => {
 
     expect(state).toBeInTheDocument();
     expect(seconds).toBeInTheDocument();
-    expect(seconds).toBe(479);
-
+    expect(seconds.textContent).toBe("0 seconds ");
 });
 });
