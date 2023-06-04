@@ -4,7 +4,7 @@ describe('Login', () => {
     cy.visit(Cypress.env('baseUrl'));
 
     cy.findByRole('textbox', {  name: /email:/i}).type('mario@gmail.com');
-    cy.findByLabelText(/password:/i).type('Mario@12345');
+    cy.findByPlaceholderText("Password...", { timeout: 7000 }).type('Mario@12345');
 
   })
 })
